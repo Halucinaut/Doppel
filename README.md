@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/doppel-pixel-logo.svg" alt="Doppel pixel logo" width="96" height="96" />
+  <img src="./assets/doppel-pixel-logo.svg" alt="Doppel pixel logo" width="320" />
 </p>
 
 # Doppel
