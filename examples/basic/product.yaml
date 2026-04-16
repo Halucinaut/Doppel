@@ -1,0 +1,7 @@
+name: "PodFlow"
+entry_url: "https://example.com"
+description: "A podcast listening and discovery platform"
+
+sandbox:
+  mode: "remote"
+  seed_state: "new_user"

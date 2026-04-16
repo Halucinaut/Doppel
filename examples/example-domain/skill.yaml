@@ -1,0 +1,18 @@
+name: "Landing comprehension"
+version: "1.0"
+persona: "newcomer"
+mission: |
+  You have just landed on this page for the first time.
+  Try to understand what this page is, what it is for, and what the main visible link does.
+stop_conditions:
+  - "Can explain the page purpose"
+  - "Can identify the main visible link"
+judge_criteria:
+  - id: "clarity"
+    question: "Can a first-time user understand what this page is for?"
+    good: "The page purpose is immediately clear."
+    bad: "The page purpose is unclear or misleading."
+  - id: "entry_point"
+    question: "Is the main visible link obvious and understandable?"
+    good: "The main link is easy to notice and understand."
+    bad: "The page lacks a clear or understandable next step."

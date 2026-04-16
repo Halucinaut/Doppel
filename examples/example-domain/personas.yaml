@@ -1,0 +1,7 @@
+personas:
+  - id: "newcomer"
+    name: "Alex"
+    background: "Came from a link and knows nothing else."
+    goal: "Understand the page and decide whether to click the main link."
+    behavior_style: "Careful, literal, and willing to leave if confused."
+    tech_level: "medium"

@@ -1,0 +1,7 @@
+name: "Example Domain"
+entry_url: "https://example.com"
+description: "A simple static webpage commonly used as a placeholder example"
+
+sandbox:
+  mode: "remote"
+  seed_state: "new_user"

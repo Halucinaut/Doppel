@@ -1,0 +1,22 @@
+name: "First-time discovery"
+version: "1.0"
+persona: "newcomer"
+
+mission: |
+  You have just arrived at this product for the first time.
+  Try to understand what it does and identify the main entry point.
+
+stop_conditions:
+  - "You understand the main call to action"
+  - "You would leave the product"
+
+judge_criteria:
+  - id: "path_efficiency"
+    question: "How direct was the path to the primary action?"
+    good: "Reached it quickly"
+    bad: "Needed too many steps"
+
+  - id: "clarity"
+    question: "Was the primary action clear?"
+    good: "The CTA was obvious"
+    bad: "The user seemed uncertain"

@@ -1,0 +1,26 @@
+.DS_Store
+.env
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+
+.browseruse/
+.doppel/
+.playwright-browsers/
+
+# Local runtime config (contains API key)
+runtime.local.yaml
+
+# Local/internal docs
+TODO.md
+Doppel_PRD.docx
+
+# Tests and test examples
+tests/
+
+examples/**/output/
+
+dist/
+build/
+*.egg-info/

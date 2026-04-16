@@ -1,0 +1,4 @@
+provider: "openai-compatible"
+api_key: "replace-with-your-runtime-api-key"
+base_url: "https://integrate.api.nvidia.com/v1"
+runtime_model: "moonshotai/kimi-k2.5"

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doppel"
+version = "0.1.0"
+description = "Synthetic user runtime for experiential testing"
+readme = "Doppel_PRD_CN.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.25,<1",
+  "pydantic>=2.5,<3",
+  "PyYAML>=6,<7",
+  "typer>=0.16,<1",
+  "rich>=13,<14",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4,<9",
+]
+
+[project.scripts]
+doppel = "doppel.cli.main:app"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["doppel*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
