@@ -40,25 +40,25 @@ class SessionRecorder:
         if extra:
             payload.update(extra)
         path = self.artifact_dir / "run_meta.json"
-        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
         return path
 
     def write_prompt_context(self, payload: dict[str, Any]) -> Path:
         path = self.artifact_dir / "prompt_context.json"
-        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
         return path
 
     def write_session(self) -> Path:
         path = self.artifact_dir / "session.json"
         path.write_text(
-            json.dumps([step.model_dump(mode="json") for step in self._steps], indent=2),
+            json.dumps([step.model_dump(mode="json") for step in self._steps], indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
         return path
 
     def write_errors(self, payload: dict[str, Any]) -> Path:
         path = self.artifact_dir / "errors.json"
-        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
         return path
 
     @property

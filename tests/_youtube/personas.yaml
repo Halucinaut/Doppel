@@ -1,0 +1,7 @@
+personas:
+  - id: "newcomer"
+    name: "Alex"
+    background: "Uses the internet regularly but is not logged into YouTube and has not used it recently."
+    goal: "Watch a couple of videos and then see how signing in works."
+    behavior_style: "Careful, literal, and willing to leave if confused."
+    tech_level: "medium"

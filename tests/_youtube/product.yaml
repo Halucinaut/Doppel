@@ -1,0 +1,7 @@
+name: "YouTube"
+entry_url: "https://www.youtube.com/"
+description: "A video platform where users discover, watch, and sign in to manage their experience"
+
+sandbox:
+  mode: "remote"
+  seed_state: "signed_out_new_user"

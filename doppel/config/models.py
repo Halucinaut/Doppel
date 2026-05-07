@@ -77,13 +77,27 @@ class ModelConfig(BaseModel):
     persona_model: str = "unset"
 
 
-class RuntimeProviderConfig(BaseModel):
-    provider: Literal["auto", "openai-compatible", "openai", "anthropic", "google"] = "auto"
+class RuntimeProviderEndpoint(BaseModel):
+    provider: Literal["openai-compatible", "openai", "anthropic", "google"]
     api_key: str | None = None
     base_url: HttpUrl | None = None
     runtime_model: str = "unset"
     judge_model: str = "unset"
     persona_model: str = "unset"
+
+    @model_validator(mode="after")
+    def validate_provider_requirements(self) -> "RuntimeProviderEndpoint":
+        if self.provider == "openai-compatible":
+            if not self.api_key:
+                raise ValueError("runtime provider api_key is required for openai-compatible")
+            if self.base_url is None:
+                raise ValueError("runtime provider base_url is required for openai-compatible")
+        return self
+
+
+class RuntimeProviderConfig(RuntimeProviderEndpoint):
+    provider: Literal["auto", "openai-compatible", "openai", "anthropic", "google"] = "auto"
+    fallback_providers: list[RuntimeProviderEndpoint] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_provider_requirements(self) -> "RuntimeProviderConfig":

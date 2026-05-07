@@ -175,5 +175,5 @@ def _capture_only_decide(_perception: PerceptionInput) -> Action:
     return Action(
         action_type="stop",
         stop_reason="capture_only",
-        target_description="initial viewport capture",
+        target_description="初始视口截图",
     )

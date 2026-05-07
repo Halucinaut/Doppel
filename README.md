@@ -6,69 +6,55 @@
 
 Synthetic user runtime for experiential testing.
 
-Doppel 试图回答一个被现有测试体系长期遗漏的问题：功能可以跑通，不代表第一次来的用户真的能用起来。
+## 简介
 
-## 1. 项目的由来
+Doppel 用 synthetic user 运行一次真实的产品体验路径，回答传统测试很难覆盖的问题：第一次进入产品的用户能否理解它、找到主要入口，并在关键路径上继续行动。
 
-过去一年，AI 把做产品的门槛压得很低。一个人、一周末、几个模型，就能把一个网站、一个工作流、一个小工具快速拼出来。问题没有消失，只是转移了。真正昂贵的部分，不再只是“把东西做出来”，而是“确认陌生人第一次看到它时不会直接迷路”。
+当前版本支持 Web 页面体验测试、远程站点或本地预览环境、persona 与 judge skill 配置、浏览器运行证据采集、facts 提取、criteria 评估、单次报告和多 persona 批量报告。它更适合体验预检和体验回归，不能替代单元测试、接口测试、安全审计或真实用户研究。
 
-我们看到一个很稳定的断层：单元测试验证逻辑，集成测试验证协作，E2E 验证预定义路径，人工走查和用户访谈验证真实体验。但在这两类能力之间，缺一层高频、低成本、可重复的体验验证。很多项目上线前知道“按钮能点”，不知道“用户会不会点”；知道“流程存在”，不知道“用户会不会理解这就是主路径”。
+## 灵感来源
 
-Doppel 就是从这个问题里长出来的。它不是为了替代真实用户，而是为了在真实用户到来之前，先放进一个 synthetic user，看它会不会困惑、走偏、放弃。
+AI 降低了做产品原型的成本，但没有降低陌生用户理解产品的成本。很多项目上线前知道按钮能点、接口能通、路径能跑完，却不知道用户第一次看到页面时会不会理解主价值、会不会点击正确入口、会不会因为信息结构混乱而放弃。
 
-## 2. 项目愿景
+Doppel 来自这个断层：功能测试验证预设路径，人工走查验证真实体验，中间缺少一层高频、低成本、可重复的体验验证。它先把一个可控的 synthetic user 放进产品，观察它如何理解、误点、滚动、等待、放弃或完成任务。
 
-Doppel 的愿景很直接：把“体验预检”变成和单元测试、CI/CD 一样自然的工程动作。
+## 项目愿景
 
-我们希望解决三类问题：产品是否自解释，关键路径是否足够自然，版本迭代是否引入了新的体验回退。更具体地说，Doppel 想让团队在发布前就知道，一个第一次接触产品的人能不能理解它、找到入口、完成任务，还是会在文案、导航、交互和信息结构上被卡住。
+Doppel 的目标是把体验预检变成和单元测试、CI/CD 一样自然的工程动作。团队可以在发布前运行一组 persona，检查首屏理解、主要入口、滚动信息递进、路径效率和信任信号，并把报告作为版本迭代的体验证据。
 
-长期看，Doppel 想成为一层独立的体验验证基础设施。CLI 只是当前入口；未来的形态可以是 API、Web 界面、发布流程集成，或者团队内部的体验回归基线。
+长期方向是形成独立的体验验证基础设施：运行时 agent 负责观察和行动，judge 模块负责从 session artifacts 中提取事实并评估，sandbox 负责隔离与重置，报告层负责可归档、可比较、可接入流程的输出。
 
-## 3. 适合谁用，以及怎么用
+## 适合谁用
 
-它适合独立开发者、vibe coder、早期创业团队、产品设计师、增长团队，也适合缺少专职 QA 与 UX 研究资源，但又希望在每次迭代前做一轮体验预检的人。
+Doppel 适合独立开发者、早期团队、产品经理、设计师、增长团队，以及缺少专职质量保障和用户研究资源但需要频繁做体验预检的人。典型用法是给一个产品配置、一个 persona、一个 mission 和一组 judge criteria，让系统自动跑出证据链和评审报告。
 
-使用方式也很简单：给 Doppel 一个目标产品，一个 persona，一个 mission，再给出几条你关心的 judge criteria。它会在可控 sandbox 中打开产品，以“第一次来的用户”视角执行任务，记录过程，最后输出结构化报告。
+Doppel 不适合用来确认选择器是否存在、接口是否返回 200、表单是否按固定步骤提交成功；这些属于 Playwright、Cypress、接口测试和单元测试的职责。它关注用户是否自然理解和行动。
 
-如果你的目标是确定某个选择器是否存在、某个接口是否返回 200、某个表单提交后是否跳转正确，那是传统 E2E 的职责。Doppel 更适合问另一类问题：第一次来的用户会不会理解、犹豫、误点、迷路、退出。
+## 工作原理
 
-## 4. 它是怎么工作的
+Doppel 的执行路径是：读取 `product.yaml`、`personas.yaml` 和 judge skill，生成规范化运行上下文；准备 sandbox，确定入口 URL、种子状态和重置策略；启动浏览器运行时，让 agent 按 persona 和 mission 执行观察、决策、行动；记录截图、页面状态、动作、推理摘要、错误和停止原因；从 `session.json` 提取 facts；按 judge criteria 生成 `evaluation.json`；最后输出 `report.md`、`report.json` 和批量运行汇总。
 
-高层流程只有一条主线：
+当前浏览器运行链路基于 browser-use。Doppel 在其上补了运行时模型配置、OpenAI 兼容供应商、失败重试、供应商轮转、结构化动作约束、中文中间过程、截图证据和点击目标标注。模型输出不稳定、目标网页加载超时、页面动态变化导致元素编号失效时，Doppel 会记录错误、冗余步骤和停止原因，报告会暴露这些摩擦。
 
-1. 读取产品配置、judge skill 和 persona 配置，生成一次运行所需的规范化上下文。
-2. 准备 sandbox，建立可重复的入口状态，例如入口 URL、测试账号、reset hook、seed state。
-3. 启动 synthetic user runtime，让 agent 在浏览器里按 mission 执行一轮 observe-decide-act。
-4. 持续记录截图、页面状态、动作、停止原因和运行元数据。
-5. 从 session artifacts 中提取 facts，按 criteria 生成评估结果。
-6. 输出 `report.md` 和 `report.json`，把行为证据整理成可读结论。
+## 与 Related Work 的差异
 
-你可以把它理解成：一个带 sandbox 的 synthetic user runner，加上一层基于证据的 judge 和报告生成。
+与 Playwright、Cypress 相比，Doppel 不要求用户提前写死操作序列；它让 synthetic user 根据页面可见信息自主选择路径，再评估这条路径是否清晰、高效、可信。
 
-## 5. 和其他框架的差异
+与通用 browser agent 和一次性网页探索工具相比，Doppel 的核心对象是可复用的产品配置、persona、judge skill、sandbox 和 artifacts。它输出结构化事实和评估结果，适合归档、复查、多角色对比和后续接入 CI/CD。
 
-和 Playwright、Cypress 这类框架相比，Doppel 的目标不是验证“预先定义好的操作序列能否成功执行”，而是验证“一个陌生用户是否能自然找到并完成任务”。前者是确定性功能验证，后者是体验验证。
+与人工可用性测试相比，Doppel 的价值是便宜、快、可高频运行；边界是无法替代真实用户访谈、长期行为观察、合规判断和高风险业务决策。
 
-和 browser agent、vibe testing、自动网页探索类项目相比，Doppel 强调三件事：第一，sandbox 是一等公民，重点是可重置、可重复、可比较，而不是一次性演示；第二，执行单位是 persona + mission，而不是随便逛一圈；第三，输出不是一段 agent 对话，而是可归档、可对比、可接入流程的结构化 artifacts 和报告。
+## Roadmap
 
-和人工 UX 走查、可用性测试相比，Doppel 的优势是便宜、快、可高频运行；短板也同样清楚，它不能替代真实用户研究，不能替代访谈、观察和高价值场景下的人类判断。它的角色是提前暴露明显问题，降低把粗糙体验直接交给真实用户的概率。
+| Version | Status | Supported or Completed | Planned Updates |
+| --- | --- | --- | --- |
+| 0.1.0 | Completed | Web 页面体验测试、browser-use 运行时、远程站点和本地预览、persona 配置、judge skill YAML、facts 提取、criteria 评估、Markdown 和 JSON 报告、多 persona 批量运行、运行时模型重试与轮转、点击目标标注 | 稳定 API、完善公开示例、整理包发布元数据 |
+| 0.2.0 | Planned | 当前 Web 运行链路继续稳定 | 支持 judge skill 目录、可组合评测模板、更多内置 criteria、报告可视化增强 |
+| 0.3.0 | Planned | 当前 sandbox 继续保留 | 强化隔离账号、种子数据、状态重置、版本对比和体验回归基线 |
+| 0.4.0 | Planned | 当前 CLI 继续保留 | 接入 GitHub Actions 等 CI/CD 流程，在提交、部署或发布前自动运行体验评测 |
+| Later | Planned | Web 产品体验测试 | 支持 macOS 和 Windows 应用，支持在虚拟机中运行目标应用，提供 API 和 Web UI |
 
-## 6. 当前版本支持与 Roadmap
-
-当前版本处在 MVP 阶段，已经支持用 synthetic user 去浏览和测试 Web 页面，支持基础 sandbox、artifact 记录、facts 提取、criteria 评估，以及 Markdown 和 JSON 报告输出。
-
-当前版本的 Roadmap 更适合按能力边界理解：
-
-1. 已支持：Web 页面体验测试，远程站点或本地预览环境运行，基础 judge skill 配置，结构化 artifacts 和报告输出。
-2. 计划支持：更复杂的 judge skill 组织形式，例如多文件目录、可组合模板、领域化评测包，而不局限于单个 YAML 文件。
-3. 计划支持：桌面应用体验测试，包括 macOS 和 Windows 应用，以及在虚拟机中运行目标应用。
-4. 计划支持：更强的 sandbox 运行环境，包括隔离账号、seed data、可重置状态和版本对比。
-5. 计划支持：接入 GitHub Actions 等 CI/CD 流程，在提交、部署或发布前自动运行体验评测。
-6. 计划支持：API、Web UI、批量运行、多 persona 对比和长期体验回归基线。
-
-## 7. 快速开始
-
-### 安装
+## 配置与使用
 
 当前项目使用 Python 3.11+。
 
@@ -80,19 +66,9 @@ source .venv/bin/activate
 pip install -e .[dev]
 ```
 
-如果你准备运行真实浏览器链路，还需要安装 Playwright 及对应浏览器资源。当前仓库默认假设浏览器资源位于工作区的 `.playwright-browsers` 下。
+如果要运行真实浏览器链路，需要安装 Playwright 浏览器资源。仓库默认支持从工作区 `.playwright-browsers` 读取浏览器。
 
-### 配置
-
-最小运行需要三个输入：
-
-- `product.yaml`：目标产品信息与 sandbox 元数据
-- `judge skill`：本次 mission、停止条件、评判标准；当前仓库里先用一个 YAML 文件承载，后续会扩展成更复杂的 skill 包或目录
-- `personas.yaml`：用户画像；如果不提供，系统会生成默认 persona
-
-可以直接参考 [`examples/basic`](/Users/sunrx/idea/Doppel/examples/basic)、[`examples/python-org`](/Users/sunrx/idea/Doppel/examples/python-org) 和 [`examples/youtube`](/Users/sunrx/idea/Doppel/examples/youtube)。
-
-一个最小 `product.yaml` 类似这样：
+最小配置包含三个文件：`product.yaml` 描述目标产品和 sandbox，`personas.yaml` 描述用户画像，judge skill 描述 mission、停止条件和评判标准。当前 judge skill 可以是一个 YAML 文件，后续会支持目录化 skill 包。
 
 ```yaml
 name: "PodFlow"
@@ -104,29 +80,27 @@ sandbox:
   seed_state: "new_user"
 ```
 
-当前仓库里，一个最小 judge skill 会先写成 `skill.yaml` 这样的文件：
-
 ```yaml
-name: "First-time discovery"
+name: "首次发现"
 version: "1.0"
 persona: "newcomer"
 
 mission: |
-  You have just arrived at this product for the first time.
-  Try to understand what it does and identify the main entry point.
+  你第一次进入这个产品。
+  请尝试理解它是做什么的，并识别主要入口。
 
 stop_conditions:
-  - "You understand the main call to action"
-  - "You would leave the product"
+  - "你已经理解主要行动入口"
+  - "你会选择离开这个产品"
 
 judge_criteria:
   - id: "path_efficiency"
-    question: "How direct was the path to the primary action?"
-    good: "Reached it quickly"
-    bad: "Needed too many steps"
+    question: "用户找到主要行动入口的路径是否直接？"
+    good: "用户很快找到了入口"
+    bad: "用户用了太多步骤，或路径不清晰"
 ```
 
-### 校验配置
+校验配置：
 
 ```bash
 doppel validate \
@@ -135,9 +109,7 @@ doppel validate \
   --personas examples/basic/personas.yaml
 ```
 
-### 启动一次运行
-
-默认模式会跑通主链路并产出 artifacts 与报告：
+运行单个 judge skill：
 
 ```bash
 doppel run \
@@ -146,34 +118,36 @@ doppel run \
   --personas examples/basic/personas.yaml
 ```
 
-如果你要显式指定运行时配置：
+使用 OpenAI 兼容模型时，创建本地 `runtime.local.yaml`，不要提交真实密钥：
 
-```bash
-doppel run \
-  --product examples/basic/product.yaml \
-  --skill examples/basic/skill.yaml \
-  --personas examples/basic/personas.yaml \
-  --runtime-config runtime.local.yaml
+```yaml
+provider: "openai-compatible"
+api_key: "${DOPPEL_RUNTIME_API_KEY}"
+base_url: "https://open.bigmodel.cn/api/paas/v4"
+runtime_model: "glm-4.6v-flash"
+fallback_providers:
+  - provider: "openai-compatible"
+    api_key: "${DOPPEL_RUNTIME_FALLBACK_API_KEY}"
+    base_url: "https://integrate.api.nvidia.com/v1"
+    runtime_model: "moonshotai/kimi-k2.6"
 ```
 
-运行完成后，输出目录里会看到类似这些文件：
+运行多 persona 批量评测：
 
-- `session.json`
-- `run_meta.json`
-- `prompt_context.json`
-- `facts.json`
-- `evaluation.json`
-- `report.md`
-- `report.json`
-- `screenshots/`
+```bash
+doppel batch \
+  --product examples/ai-bot-cn/product.yaml \
+  --skill-dir examples/ai-bot-cn \
+  --personas examples/ai-bot-cn/personas.yaml \
+  --runtime-config runtime.local.yaml \
+  --decision-provider browser-use \
+  --retries 1
+```
 
-## 8. 协议与声明
+运行完成后，输出目录包含 `session.json`、`run_meta.json`、`prompt_context.json`、`facts.json`、`evaluation.json`、`report.md`、`report.json`、`screenshots/`。批量运行会额外生成 `batch_report.md` 和 `batch_summary.json`。
 
-当前仓库采用 MIT License，具体条款见根目录下的 `LICENSE` 文件。这意味着你可以在保留版权和许可声明的前提下使用、修改、分发和再发布本项目。
+## License
 
-声明如下：
+当前仓库采用 MIT License，具体条款见根目录下的 `LICENSE` 文件。
 
-- Doppel 的目标是辅助体验预检，不构成质量、合规、安全、可访问性或业务结果保证。
-- 它不替代真实用户研究，不替代人工 QA，也不替代生产环境责任判断。
-- 当前版本仍处于早期阶段，接口、配置格式、运行行为和报告结构都可能继续变化。
-- 如果你在受登录保护、含隐私数据或受合规约束的系统上运行它，应该先自行确认授权、隔离和数据处理边界。
+Doppel 用于辅助体验预检，不构成质量、合规、安全、可访问性或业务结果保证。对受登录保护、含隐私数据或受合规约束的系统运行 Doppel 前，应先确认授权、隔离和数据处理边界。

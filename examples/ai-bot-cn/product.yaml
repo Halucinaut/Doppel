@@ -1,0 +1,7 @@
+name: "ai-bot"
+entry_url: "https://ai-bot.cn/"
+description: "AI 工具导航与内容站点，需要从首页理解站点定位、搜索或分类入口和可信度。"
+
+sandbox:
+  mode: "remote"
+  seed_state: "new_user"

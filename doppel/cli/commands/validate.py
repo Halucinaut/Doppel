@@ -21,11 +21,11 @@ def validate(
             runtime_config_path=runtime_config,
         )
     except (ConfigLoadError, ValidationError, ValueError) as exc:
-        typer.echo(f"Config validation failed: {exc}")
+        typer.echo(f"配置校验失败：{exc}")
         raise typer.Exit(code=1)
 
     typer.echo(
-        "Config validation succeeded\n"
+        "配置校验通过\n"
         f"- product: {spec.product.name}\n"
         f"- persona: {spec.persona.id}\n"
         f"- skill: {spec.skill.name}\n"

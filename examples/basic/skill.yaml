@@ -1,22 +1,22 @@
-name: "First-time discovery"
+name: "首次发现"
 version: "1.0"
 persona: "newcomer"
 
 mission: |
-  You have just arrived at this product for the first time.
-  Try to understand what it does and identify the main entry point.
+  你第一次进入这个产品。
+  请尝试理解它是做什么的，并识别主要入口。
 
 stop_conditions:
-  - "You understand the main call to action"
-  - "You would leave the product"
+  - "你已经理解主要行动入口"
+  - "你会选择离开这个产品"
 
 judge_criteria:
   - id: "path_efficiency"
-    question: "How direct was the path to the primary action?"
-    good: "Reached it quickly"
-    bad: "Needed too many steps"
+    question: "用户找到主要行动入口的路径是否直接？"
+    good: "用户很快找到了入口"
+    bad: "用户用了太多步骤，或路径不清晰"
 
   - id: "clarity"
-    question: "Was the primary action clear?"
-    good: "The CTA was obvious"
-    bad: "The user seemed uncertain"
+    question: "主要行动入口是否清晰？"
+    good: "入口明显，用户能快速理解"
+    bad: "用户表现出不确定，或入口不明显"

@@ -1,0 +1,7 @@
+name: "Python.org"
+entry_url: "https://www.python.org/"
+description: "The official website for the Python programming language"
+
+sandbox:
+  mode: "remote"
+  seed_state: "new_user"

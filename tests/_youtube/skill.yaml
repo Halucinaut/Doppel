@@ -1,0 +1,20 @@
+name: "First-time viewing and login attempt"
+version: "1.0"
+persona: "newcomer"
+mission: |
+  You have just arrived at YouTube for the first time as a signed-out visitor.
+  Try to discover and open one video about Python, then find and open a second video.
+  After that, try to start the sign-in flow.
+  Behave like a real cautious user: use only visible paths, let pages load, and stop only after you have either reached the login screen or you are genuinely blocked.
+stop_conditions:
+  - "Opened two video pages"
+  - "Reached the sign-in page or sign-in prompt"
+judge_criteria:
+  - id: "discoverability"
+    question: "Could a first-time signed-out visitor discover videos and move between them without confusion?"
+    good: "Finding and opening videos feels straightforward."
+    bad: "The user gets lost, blocked, or distracted before reaching two videos."
+  - id: "login_entry"
+    question: "Is the path into sign-in obvious after using the site?"
+    good: "The sign-in entry point is easy to spot and reach."
+    bad: "The sign-in path is unclear or unnecessarily hard to access."

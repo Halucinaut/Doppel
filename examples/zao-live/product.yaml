@@ -1,0 +1,7 @@
+name: "zao-live"
+entry_url: "https://zao.live/"
+description: "一个需要从落地页理解产品定位、主要入口和使用路径的 Web 产品。"
+
+sandbox:
+  mode: "remote"
+  seed_state: "new_user"

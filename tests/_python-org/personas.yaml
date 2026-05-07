@@ -1,0 +1,7 @@
+personas:
+  - id: "newcomer"
+    name: "Alex"
+    background: "Heard about Python but has never visited this site before."
+    goal: "Figure out what the site is and where to start."
+    behavior_style: "Careful, literal, and willing to leave if confused."
+    tech_level: "medium"

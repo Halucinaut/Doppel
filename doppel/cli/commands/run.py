@@ -46,7 +46,7 @@ def run(
         show_browser=show_browser,
     )
     typer.echo(
-        "Run scaffold completed\n"
+        "运行主链路已完成\n"
         f"- run_id: {result.run_id}\n"
         f"- mode: {result.mode}\n"
         f"- artifact_dir: {result.artifact_dir}\n"
@@ -55,5 +55,5 @@ def run(
         f"- report: {result.report_path}"
     )
     if result.error_message:
-        typer.echo(f"Runtime error: {result.error_message}")
+        typer.echo(f"运行时错误：{result.error_message}")
         raise typer.Exit(code=1)

@@ -76,7 +76,7 @@ class AgentRuntime:
                 mission_completed=action.stop_reason == "mission_completed",
                 unrecoverable_error=False,
             )
-            history_summary = f"step={step_count}, last_action={action.action_type}, stop={decision.reason}"
+            history_summary = f"步骤={step_count}，上一步动作={action.action_type}，停止判断={decision.reason}"
             if action.action_type == "stop":
                 break
             if decision.should_stop:
@@ -96,10 +96,10 @@ def _build_action_input(action: Action) -> str | None:
 
 
 def _build_observation_summary(perception: PerceptionInput) -> str:
-    return f"Observed page {perception.page_title or 'unknown'} at {perception.url}"
+    return f"观察到页面「{perception.page_title or '未知'}」，URL：{perception.url}"
 
 
 def _build_reasoning_summary(action: Action) -> str:
     if action.action_type == "stop":
-        return f"Agent decided to stop: {action.stop_reason}"
-    return f"Agent selected action '{action.action_type}' targeting '{action.target_description or 'unspecified target'}'"
+        return f"Agent 决定停止：{action.stop_reason}"
+    return f"Agent 选择动作「{action.action_type}」，目标：「{action.target_description or '未指定目标'}」"

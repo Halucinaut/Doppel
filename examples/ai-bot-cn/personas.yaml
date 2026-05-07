@@ -1,0 +1,28 @@
+personas:
+  - id: "newcomer"
+    name: "AI 工具新手 林然"
+    background: "第一次访问 AI 工具导航站，不确定该站收录什么、怎么查工具、是否适合自己。"
+    goal: "理解站点用途，找到搜索、分类或推荐入口，并判断是否值得继续使用。"
+    behavior_style: "优先看首屏和导航；看不懂会下滑；找到明确入口会点击验证。"
+    tech_level: "low"
+
+  - id: "designer"
+    name: "设计师 沈乔"
+    background: "经常寻找设计、图片、原型和灵感类 AI 工具，关注站点视觉组织和工具卡片可读性。"
+    goal: "判断页面是否能高效呈现工具分类、视觉层级和面向设计工作的入口。"
+    behavior_style: "检查首屏层级、导航分类、卡片密度、搜索入口和设计相关分类。"
+    tech_level: "high"
+
+  - id: "product_manager"
+    name: "产品经理 周屿"
+    background: "需要快速筛选可用于产品、运营和效率提升的 AI 工具，关注信息架构和发现效率。"
+    goal: "判断站点是否能快速把用户带到有价值的工具列表或搜索结果。"
+    behavior_style: "按发现路径行动；优先寻找搜索、热门分类、推荐榜单和工具详情入口。"
+    tech_level: "high"
+
+  - id: "privacy_cautious"
+    name: "谨慎用户 陈澈"
+    background: "对工具导航站的推荐质量、广告属性和外链安全较谨慎。"
+    goal: "确认站点是否可信，是否提供清晰来源、分类、更新或站点说明，再决定是否点击外部工具。"
+    behavior_style: "主动寻找站点说明、品牌、更新信息、用户反馈、外链提示和可信来源。"
+    tech_level: "medium"

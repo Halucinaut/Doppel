@@ -1,18 +1,18 @@
-name: "Landing comprehension"
+name: "落地页理解"
 version: "1.0"
 persona: "newcomer"
 mission: |
-  You have just landed on this page for the first time.
-  Try to understand what this page is, what it is for, and what the main visible link does.
+  你第一次进入这个页面。
+  请尝试理解这个页面是什么、用途是什么，以及页面上主要可见链接的作用。
 stop_conditions:
-  - "Can explain the page purpose"
-  - "Can identify the main visible link"
+  - "能够说明页面用途"
+  - "能够识别主要可见链接"
 judge_criteria:
   - id: "clarity"
-    question: "Can a first-time user understand what this page is for?"
-    good: "The page purpose is immediately clear."
-    bad: "The page purpose is unclear or misleading."
+    question: "首次访问用户能否理解这个页面的用途？"
+    good: "页面用途能被快速理解。"
+    bad: "页面用途不清晰，或容易造成误解。"
   - id: "entry_point"
-    question: "Is the main visible link obvious and understandable?"
-    good: "The main link is easy to notice and understand."
-    bad: "The page lacks a clear or understandable next step."
+    question: "主要可见链接是否明显且容易理解？"
+    good: "主要链接容易被注意到，且作用清楚。"
+    bad: "页面缺少清晰、可理解的下一步。"

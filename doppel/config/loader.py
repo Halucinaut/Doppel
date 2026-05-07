@@ -57,10 +57,10 @@ def _replace_env_var(match: re.Match[str]) -> str:
 def generate_default_persona(product: ProductConfig) -> PersonaConfig:
     return PersonaConfig(
         id="newcomer",
-        name=f"First-time user for {product.name}",
-        background="Arrived with no prior product knowledge.",
-        goal="Understand the product and try its primary value.",
-        behavior_style="Cautious, literal, leaves when confused.",
+        name=f"{product.name} 的首次访问用户",
+        background="刚通过入口链接进入产品，对产品没有先验认知。",
+        goal="理解产品用途，并尝试找到主要价值路径。",
+        behavior_style="谨慎、按字面理解；如果持续困惑，会选择离开。",
         tech_level="medium",
     )
 

@@ -38,7 +38,7 @@ class ReportBuilder:
             facts=facts or [],
             evaluations=evaluations or [],
         )
-        report_json_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+        report_json_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
         report_md_path.write_text(self._build_markdown(summary), encoding="utf-8")
         return report_md_path, report_json_path
 
@@ -78,76 +78,81 @@ class ReportBuilder:
 
     def _build_markdown(self, summary: dict[str, Any]) -> str:
         lines = [
-            "# Doppel Report",
+            "# Doppel 评审报告",
             "",
-            "## Summary",
-            f"- Run ID: `{summary['run_id']}`",
-            f"- Mode: `{summary['mode']}`",
-            f"- Step count: `{summary['step_count']}`",
-            f"- Outcome: `{summary['outcome']['status']}`",
-            f"- Stop Reason: `{summary['stop_reason']}`",
+            "## 概览",
+            f"- 运行 ID：`{summary['run_id']}`",
+            f"- 运行模式：`{summary['mode']}`",
+            f"- 步骤数：`{summary['step_count']}`",
+            f"- 结果状态：`{summary['outcome']['status']}`",
+            f"- 停止原因：`{summary['stop_reason']}`",
             "",
-            "## Product",
-            f"- Name: {summary['product']['name']}",
-            f"- Entry URL: {summary['product']['entry_url']}",
-            f"- Description: {summary['product']['description']}",
+            "## 产品",
+            f"- 名称：{summary['product']['name']}",
+            f"- 入口 URL：{summary['product']['entry_url']}",
+            f"- 描述：{summary['product']['description']}",
             "",
-            "## Persona",
-            f"- ID: {summary['persona']['id']}",
-            f"- Name: {summary['persona']['name']}",
-            f"- Behavior Style: {summary['persona']['behavior_style']}",
+            "## 用户画像",
+            f"- ID：{summary['persona']['id']}",
+            f"- 名称：{summary['persona']['name']}",
+            f"- 行为风格：{summary['persona']['behavior_style']}",
             "",
-            "## Mission",
+            "## 任务",
             summary["skill"]["mission"],
             "",
-            "## Friction Points",
+            "## 体验摩擦点",
         ]
 
         friction_points = summary["friction_points"]
         if friction_points:
             lines.extend(f"- {item}" for item in friction_points)
         else:
-            lines.append("- No major friction points detected in this run")
+            lines.append("- 本次运行未检测到明显体验摩擦点")
 
         lines.extend(
             [
                 "",
-                "## Reset",
-                f"- Executed: `{summary['reset']['executed']}`",
-                f"- Strategy: `{summary['reset']['strategy']}`",
-                f"- Detail: {summary['reset']['detail']}",
+                "## 重置",
+                f"- 是否执行：`{summary['reset']['executed']}`",
+                f"- 策略：`{summary['reset']['strategy']}`",
+                f"- 详情：{summary['reset']['detail']}",
                 "",
-                "## Criteria",
+                "## 评审标准",
             ]
         )
 
         evaluations = summary["evaluations"]
         if evaluations:
-            lines.extend(
-                f"- `{item['criterion_id']}`: `{item['result']}` - {item['summary']}" for item in evaluations
-            )
+            for item in evaluations:
+                lines.append(f"- `{item['criterion_id']}`: `{item['result']}` - {item['summary']}")
+                if item.get("key_milestone"):
+                    lines.append(f"  关键里程碑：{item['key_milestone']}")
+                if item.get("improvement_suggestion"):
+                    lines.append(f"  改进建议：{item['improvement_suggestion']}")
+                if item.get("evidence_screenshots"):
+                    lines.append(f"  截图证据：{'，'.join(item['evidence_screenshots'])}")
         else:
-            lines.append("- No criteria evaluated yet")
+            lines.append("- 暂无已评审标准")
 
-        lines.extend(["", "## Facts"])
+        lines.extend(["", "## 事实"])
 
         facts = summary["facts"]
         if facts:
             lines.extend(f"- `{item['type']}`: {item['statement']}" for item in facts)
         else:
-            lines.append("- No extracted facts yet")
+            lines.append("- 暂无提取事实")
 
         lines.extend(
             [
                 "",
-            "## Screenshots",
+            "## 截图",
             ]
         )
 
         if summary["screenshots"]:
             lines.extend(f"- `{path}`" for path in summary["screenshots"])
         else:
-            lines.append("- No screenshots captured yet")
+            lines.append("- 暂无截图")
 
         return "\n".join(lines) + "\n"
 

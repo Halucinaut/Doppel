@@ -1,5 +1,6 @@
 .DS_Store
 .env
+.env.*
 .venv/
 .pytest_cache/
 __pycache__/
@@ -7,6 +8,7 @@ __pycache__/
 
 .browseruse/
 .doppel/
+.claude/
 .playwright-browsers/
 
 # Local runtime config (contains API key)
@@ -16,10 +18,8 @@ runtime.local.yaml
 TODO.md
 Doppel_PRD.docx
 
-# Tests and test examples
-tests/
-
 examples/**/output/
+tests/**/output/
 
 dist/
 build/

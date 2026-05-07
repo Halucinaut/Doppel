@@ -1,0 +1,18 @@
+name: "Homepage orientation"
+version: "1.0"
+persona: "newcomer"
+mission: |
+  You have just arrived at this site for the first time.
+  Try to understand what this website is for and identify the clearest visible entry point for someone who wants to get started with Python.
+stop_conditions:
+  - "Can explain the website purpose"
+  - "Can identify a clear get-started entry point"
+judge_criteria:
+  - id: "clarity"
+    question: "Can a first-time visitor quickly understand what this website is for?"
+    good: "The site purpose is easy to understand from the homepage."
+    bad: "The site purpose is unclear or requires too much exploration."
+  - id: "entry_point"
+    question: "Is there a clear visible path for someone who wants to get started?"
+    good: "A sensible first action is obvious from the homepage."
+    bad: "A first-time user would struggle to choose where to click."

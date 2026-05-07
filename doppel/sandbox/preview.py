@@ -6,7 +6,7 @@ from doppel.sandbox.base import ResetResult, SandboxContext, SandboxManager
 
 class LocalPreviewSandbox(SandboxManager):
     def prepare(self, spec: RunSpec) -> SandboxContext:
-        run_id, artifact_dir = self._new_run_dir()
+        run_id, artifact_dir = self._new_run_dir(spec)
         reset_strategy, reset_url = self._build_reset_context(spec)
         return SandboxContext(
             run_id=run_id,
