@@ -1,0 +1,199 @@
+[
+  {
+    "fact_id": "fact_step_count",
+    "type": "step_count",
+    "statement": "本次运行记录了 7 个步骤。",
+    "evidence_step_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-003.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-004.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-005.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-006.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-007.png"
+    ],
+    "data": {
+      "count": 7
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_stop_reason",
+    "type": "stop_reason",
+    "statement": "本次运行停止原因是「mission_completed」。",
+    "evidence_step_ids": [
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-007.png"
+    ],
+    "data": {
+      "stop_reason": "mission_completed"
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_screenshot_count",
+    "type": "screenshot_count",
+    "statement": "本次运行捕获了 6 张截图。",
+    "evidence_step_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-003.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-004.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-005.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-006.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-007.png"
+    ],
+    "data": {
+      "count": 6
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_last_action",
+    "type": "last_action",
+    "statement": "最后记录的动作是「stop」。",
+    "evidence_step_ids": [
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-007.png"
+    ],
+    "data": {
+      "action_type": "stop"
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_first_content_step",
+    "type": "first_content_step",
+    "statement": "第一个非空白页面出现在步骤 2。",
+    "evidence_step_ids": [
+      2
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-002.png"
+    ],
+    "data": {
+      "step_id": 2,
+      "url": "https://ai-bot.cn/"
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_first_click_step",
+    "type": "first_click_step",
+    "statement": "首次点击发生在步骤 3。",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-003.png"
+    ],
+    "data": {
+      "step_id": 3
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_click_target",
+    "type": "click_target",
+    "statement": "首次点击目标是「搜索框」。",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-003.png"
+    ],
+    "data": {
+      "target": "搜索框",
+      "is_primary": true
+    },
+    "confidence": 0.85
+  },
+  {
+    "fact_id": "fact_scroll_count",
+    "type": "scroll_count",
+    "statement": "本次运行共滚动 1 次。",
+    "evidence_step_ids": [
+      2
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-002.png"
+    ],
+    "data": {
+      "count": 1,
+      "directions": [
+        "down"
+      ]
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_scroll_discoveries",
+    "type": "scroll_discoveries",
+    "statement": "滚动后发现：成功向下滚动页面，页面显示了更多内容，包括搜索框、分类入口和热门工具列表。页面内容丰富，显示了多个AI工具分类和具体工具推荐。；下一步目标：点击搜索框，测试站点",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/screenshots/step-003.png"
+    ],
+    "data": {
+      "discoveries": [
+        {
+          "scroll_step_id": 2,
+          "step_id": 3,
+          "direction": "down",
+          "summary": "成功向下滚动页面，页面显示了更多内容，包括搜索框、分类入口和热门工具列表。页面内容丰富，显示了多个AI工具分类和具体工具推荐。；下一步目标：点击搜索框，测试站点"
+        }
+      ]
+    },
+    "confidence": 0.8
+  },
+  {
+    "fact_id": "fact_trust_signals",
+    "type": "trust_signals",
+    "statement": "页面未发现明显信任信号。",
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "data": {
+      "types": [],
+      "count": 0,
+      "step_ids": []
+    },
+    "confidence": 0.75
+  },
+  {
+    "fact_id": "fact_redundant_steps",
+    "type": "redundant_steps",
+    "statement": "未检测到明显冗余步骤。",
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "data": {
+      "count": 0,
+      "step_ids": [],
+      "types": [],
+      "max_consecutive_wait": 1,
+      "severe": false
+    },
+    "confidence": 0.85
+  }
+]

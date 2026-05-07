@@ -1,0 +1,101 @@
+[
+  {
+    "criterion_id": "first_screen_clarity",
+    "result": "partial",
+    "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途",
+    "evidence_fact_ids": [
+      "fact_first_content_step",
+      "fact_understanding_summary",
+      "fact_understanding_step"
+    ],
+    "evidence_step_ids": [
+      2,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-007.png"
+    ],
+    "key_milestone": "步骤 2 首屏加载",
+    "improvement_suggestion": "在首屏补充一句明确的产品定位、目标用户和核心价值，降低首次理解成本。"
+  },
+  {
+    "criterion_id": "primary_action",
+    "result": "partial",
+    "summary": "步骤 3 点击了「关于我们」，但主要入口不够突出导致 Agent 选择了其他路径",
+    "evidence_fact_ids": [
+      "fact_first_click_step",
+      "fact_click_target"
+    ],
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-003.png"
+    ],
+    "key_milestone": "步骤 3 点击非主要入口",
+    "improvement_suggestion": "强化主行动入口的视觉权重和文案指向，弱化次级链接对首次路径的干扰。"
+  },
+  {
+    "criterion_id": "scroll_discovery",
+    "result": "partial",
+    "summary": "Agent 未发生滚动，无法验证首屏以下信息层次",
+    "evidence_fact_ids": [
+      "fact_scroll_count"
+    ],
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "key_milestone": "未触发滚动发现",
+    "improvement_suggestion": "确保首屏能引导用户继续浏览，或让核心价值在首屏完整表达。"
+  },
+  {
+    "criterion_id": "path_efficiency",
+    "result": "partial",
+    "summary": "路径可接受但存在优化空间，7 步完成，其中 3 步为冗余操作（连续等待）",
+    "evidence_fact_ids": [
+      "fact_step_count",
+      "fact_first_content_step",
+      "fact_understanding_step",
+      "fact_first_click_step",
+      "fact_stop_reason",
+      "fact_redundant_steps"
+    ],
+    "evidence_step_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-003.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-004.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-005.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-006.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-007.png"
+    ],
+    "key_milestone": "步骤 2 首屏加载 -> 步骤 7 理解产品 -> 步骤 3 找到主要入口 -> 完成任务（mission_completed）",
+    "improvement_suggestion": "减少重复等待和重复滚动，把首屏加载、产品理解和主入口发现压缩到更短路径。"
+  },
+  {
+    "criterion_id": "trust_and_confidence",
+    "result": "partial",
+    "summary": "页面提供了部分信任信号：内容维护、品牌背书，但不足以完全建立用户信心",
+    "evidence_fact_ids": [
+      "fact_trust_signals"
+    ],
+    "evidence_step_ids": [
+      3,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-003.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/screenshots/step-007.png"
+    ],
+    "key_milestone": "发现部分信任信号",
+    "improvement_suggestion": "补充评分、用户评价、品牌背书、安全隐私说明或官方认证等信任信息。"
+  }
+]

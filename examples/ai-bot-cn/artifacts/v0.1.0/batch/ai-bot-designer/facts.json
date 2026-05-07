@@ -1,0 +1,185 @@
+[
+  {
+    "fact_id": "fact_step_count",
+    "type": "step_count",
+    "statement": "本次运行记录了 3 个步骤。",
+    "evidence_step_ids": [
+      1,
+      2,
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-003.png"
+    ],
+    "data": {
+      "count": 3
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_stop_reason",
+    "type": "stop_reason",
+    "statement": "本次运行停止原因是「mission_completed」。",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-003.png"
+    ],
+    "data": {
+      "stop_reason": "mission_completed"
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_screenshot_count",
+    "type": "screenshot_count",
+    "statement": "本次运行捕获了 2 张截图。",
+    "evidence_step_ids": [
+      1,
+      2,
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-003.png"
+    ],
+    "data": {
+      "count": 2
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_last_action",
+    "type": "last_action",
+    "statement": "最后记录的动作是「stop」。",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-003.png"
+    ],
+    "data": {
+      "action_type": "stop"
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_first_content_step",
+    "type": "first_content_step",
+    "statement": "第一个非空白页面出现在步骤 2。",
+    "evidence_step_ids": [
+      2
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-002.png"
+    ],
+    "data": {
+      "step_id": 2,
+      "url": "https://ai-bot.cn/"
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_first_click_step",
+    "type": "first_click_step",
+    "statement": "首次点击发生在步骤 2。",
+    "evidence_step_ids": [
+      2
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-002.png"
+    ],
+    "data": {
+      "step_id": 2
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_click_target",
+    "type": "click_target",
+    "statement": "首次点击目标是「AI设计工具」。",
+    "evidence_step_ids": [
+      2
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-002.png"
+    ],
+    "data": {
+      "target": "AI设计工具",
+      "is_primary": true
+    },
+    "confidence": 0.85
+  },
+  {
+    "fact_id": "fact_scroll_count",
+    "type": "scroll_count",
+    "statement": "本次运行共滚动 0 次。",
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "data": {
+      "count": 0,
+      "directions": []
+    },
+    "confidence": 1.0
+  },
+  {
+    "fact_id": "fact_understanding_step",
+    "type": "understanding_step",
+    "statement": "Agent 首次表达产品理解发生在步骤 3。",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-003.png"
+    ],
+    "data": {
+      "step_id": 3
+    },
+    "confidence": 0.8
+  },
+  {
+    "fact_id": "fact_understanding_summary",
+    "type": "understanding_summary",
+    "statement": "Agent 对产品定位的理解：提供了清晰的分类和工具卡片展示，视觉层级良好，适合设计师寻找设计、图片、原型和灵感类AI工具。",
+    "evidence_step_ids": [
+      3
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/screenshots/step-003.png"
+    ],
+    "data": {
+      "summary": "提供了清晰的分类和工具卡片展示，视觉层级良好，适合设计师寻找设计、图片、原型和灵感类AI工具"
+    },
+    "confidence": 0.8
+  },
+  {
+    "fact_id": "fact_trust_signals",
+    "type": "trust_signals",
+    "statement": "页面未发现明显信任信号。",
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "data": {
+      "types": [],
+      "count": 0,
+      "step_ids": []
+    },
+    "confidence": 0.75
+  },
+  {
+    "fact_id": "fact_redundant_steps",
+    "type": "redundant_steps",
+    "statement": "未检测到明显冗余步骤。",
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "data": {
+      "count": 0,
+      "step_ids": [],
+      "types": [],
+      "max_consecutive_wait": 1,
+      "severe": false
+    },
+    "confidence": 0.85
+  }
+]

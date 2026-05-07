@@ -1,0 +1,394 @@
+{
+  "run_id": "c2d9d2195605",
+  "mode": "remote",
+  "artifact_dir": "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer",
+  "step_count": 7,
+  "stop_reason": "mission_completed",
+  "reset": {
+    "executed": false,
+    "strategy": "none",
+    "detail": "未配置 reset hook"
+  },
+  "product": {
+    "name": "ai-bot",
+    "entry_url": "https://ai-bot.cn/",
+    "description": "AI 工具导航与内容站点，需要从首页理解站点定位、搜索或分类入口和可信度。"
+  },
+  "persona": {
+    "id": "newcomer",
+    "name": "AI 工具新手 林然",
+    "background": "第一次访问 AI 工具导航站，不确定该站收录什么、怎么查工具、是否适合自己。",
+    "goal": "理解站点用途，找到搜索、分类或推荐入口，并判断是否值得继续使用。",
+    "behavior_style": "优先看首屏和导航；看不懂会下滑；找到明确入口会点击验证。",
+    "tech_level": "low"
+  },
+  "skill": {
+    "name": "ai-bot.cn 基础发现评测",
+    "mission": "你第一次进入 https://ai-bot.cn/。\n请判断这个站点是做什么的、它如何帮助用户发现 AI 工具，以及首屏或一次下滑范围内是否存在明确入口。\n如果看到搜索、分类、热门工具或推荐入口，请点击一个最像主路径的入口验证；点击后看到新页面、列表变化或明确反馈即可总结并结束。\n不要使用搜索引擎或页面外资料，不要编造页面上没有出现的信息。\n",
+    "stop_conditions": [
+      "已经理解站点用途和主要使用路径",
+      "已经找到并验证搜索、分类或推荐入口",
+      "已经完成一次点击验证，可以总结",
+      "页面无法访问、核心内容无法加载，或操作无法继续"
+    ],
+    "judge_criteria": [
+      {
+        "id": "first_screen_clarity",
+        "question": "首屏是否能让新用户理解站点用途？",
+        "good": "首屏直接呈现 AI 工具导航、搜索或分类能力。",
+        "bad": "首屏内容杂乱或广告化，新用户不知道如何开始。"
+      },
+      {
+        "id": "primary_action",
+        "question": "是否存在明确的搜索、分类或工具发现入口？",
+        "good": "用户能快速找到搜索框、分类导航或热门工具入口。",
+        "bad": "入口分散或弱，用户不知道点哪里。"
+      },
+      {
+        "id": "scroll_discovery",
+        "question": "下滑后是否出现有效信息递进？",
+        "good": "下滑后看到分类、工具列表、榜单或站点说明。",
+        "bad": "下滑后内容重复或无法提升理解。"
+      },
+      {
+        "id": "path_efficiency",
+        "question": "新用户找到工具入口的路径是否高效？",
+        "good": "少量步骤内理解站点并进入工具发现路径。",
+        "bad": "需要反复滚动、等待或猜测。"
+      },
+      {
+        "id": "trust_and_confidence",
+        "question": "站点是否提供足够信任信号？",
+        "good": "能看到品牌、更新、分类质量、说明或用户反馈。",
+        "bad": "缺少可信来源和站点说明。"
+      }
+    ]
+  },
+  "outcome": {
+    "status": "completed",
+    "last_action": "stop",
+    "last_target": "done: {'text': 'AI工具集网站是一个全面的AI工具导航平台，提供分类浏览、搜索和推荐功能。网站主要帮助用户发现和了解各种AI工具，包括写作、图像、视频等多个分类。首页显示了丰富的工具列表和每日AI资讯，通过分类入口和搜索功能帮助用户快速找到所需工具。该网站对AI工具新手来说是一个很好的资源入口，提供了结构化的工具分类和热门推荐，能够有效帮助用户发现和了解不同类型的AI工具。', 'success': True, 'files_to_display': []}"
+  },
+  "friction_points": [
+    "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途",
+    "Agent 未发生滚动，无法验证首屏以下信息层次",
+    "路径可接受但存在优化空间，7 步完成，其中 0 步为冗余操作（无明显重复动作）",
+    "页面提供了部分信任信号：内容维护，但不足以完全建立用户信心"
+  ],
+  "facts": [
+    {
+      "fact_id": "fact_step_count",
+      "type": "step_count",
+      "statement": "本次运行记录了 7 个步骤。",
+      "evidence_step_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-003.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-004.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-005.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-006.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "count": 7
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_stop_reason",
+      "type": "stop_reason",
+      "statement": "本次运行停止原因是「mission_completed」。",
+      "evidence_step_ids": [
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "stop_reason": "mission_completed"
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_screenshot_count",
+      "type": "screenshot_count",
+      "statement": "本次运行捕获了 6 张截图。",
+      "evidence_step_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-003.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-004.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-005.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-006.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "count": 6
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_last_action",
+      "type": "last_action",
+      "statement": "最后记录的动作是「stop」。",
+      "evidence_step_ids": [
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "action_type": "stop"
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_first_content_step",
+      "type": "first_content_step",
+      "statement": "第一个非空白页面出现在步骤 2。",
+      "evidence_step_ids": [
+        2
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png"
+      ],
+      "data": {
+        "step_id": 2,
+        "url": "https://ai-bot.cn/"
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_first_click_step",
+      "type": "first_click_step",
+      "statement": "首次点击发生在步骤 2。",
+      "evidence_step_ids": [
+        2
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png"
+      ],
+      "data": {
+        "step_id": 2
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_click_target",
+      "type": "click_target",
+      "statement": "首次点击目标是「搜索框」。",
+      "evidence_step_ids": [
+        2
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png"
+      ],
+      "data": {
+        "target": "搜索框",
+        "is_primary": true
+      },
+      "confidence": 0.85
+    },
+    {
+      "fact_id": "fact_scroll_count",
+      "type": "scroll_count",
+      "statement": "本次运行共滚动 0 次。",
+      "evidence_step_ids": [],
+      "evidence_screenshots": [],
+      "data": {
+        "count": 0,
+        "directions": []
+      },
+      "confidence": 1.0
+    },
+    {
+      "fact_id": "fact_understanding_step",
+      "type": "understanding_step",
+      "statement": "Agent 首次表达产品理解发生在步骤 7。",
+      "evidence_step_ids": [
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "step_id": 7
+      },
+      "confidence": 0.8
+    },
+    {
+      "fact_id": "fact_understanding_summary",
+      "type": "understanding_summary",
+      "statement": "Agent 对产品定位的理解：网站是一个全面的AI工具导航平台，提供分类浏览、搜索和推荐功能。",
+      "evidence_step_ids": [
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "summary": "网站是一个全面的AI工具导航平台，提供分类浏览、搜索和推荐功能"
+      },
+      "confidence": 0.8
+    },
+    {
+      "fact_id": "fact_trust_signals",
+      "type": "trust_signals",
+      "statement": "页面出现信任信号：内容维护。",
+      "evidence_step_ids": [
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "data": {
+        "types": [
+          "内容维护"
+        ],
+        "count": 1,
+        "step_ids": [
+          7
+        ]
+      },
+      "confidence": 0.75
+    },
+    {
+      "fact_id": "fact_redundant_steps",
+      "type": "redundant_steps",
+      "statement": "未检测到明显冗余步骤。",
+      "evidence_step_ids": [],
+      "evidence_screenshots": [],
+      "data": {
+        "count": 0,
+        "step_ids": [],
+        "types": [],
+        "max_consecutive_wait": 1,
+        "severe": false
+      },
+      "confidence": 0.85
+    }
+  ],
+  "evaluations": [
+    {
+      "criterion_id": "first_screen_clarity",
+      "result": "partial",
+      "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途",
+      "evidence_fact_ids": [
+        "fact_first_content_step",
+        "fact_understanding_summary",
+        "fact_understanding_step"
+      ],
+      "evidence_step_ids": [
+        2,
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "key_milestone": "步骤 2 首屏加载",
+      "improvement_suggestion": "在首屏补充一句明确的产品定位、目标用户和核心价值，降低首次理解成本。"
+    },
+    {
+      "criterion_id": "primary_action",
+      "result": "pass",
+      "summary": "步骤 2 成功识别并点击主要入口「搜索框」，入口明显且易于理解",
+      "evidence_fact_ids": [
+        "fact_first_click_step",
+        "fact_click_target"
+      ],
+      "evidence_step_ids": [
+        2
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png"
+      ],
+      "key_milestone": "步骤 2 点击主要入口",
+      "improvement_suggestion": null
+    },
+    {
+      "criterion_id": "scroll_discovery",
+      "result": "partial",
+      "summary": "Agent 未发生滚动，无法验证首屏以下信息层次",
+      "evidence_fact_ids": [
+        "fact_scroll_count"
+      ],
+      "evidence_step_ids": [],
+      "evidence_screenshots": [],
+      "key_milestone": "未触发滚动发现",
+      "improvement_suggestion": "确保首屏能引导用户继续浏览，或让核心价值在首屏完整表达。"
+    },
+    {
+      "criterion_id": "path_efficiency",
+      "result": "partial",
+      "summary": "路径可接受但存在优化空间，7 步完成，其中 0 步为冗余操作（无明显重复动作）",
+      "evidence_fact_ids": [
+        "fact_step_count",
+        "fact_first_content_step",
+        "fact_understanding_step",
+        "fact_first_click_step",
+        "fact_stop_reason",
+        "fact_redundant_steps"
+      ],
+      "evidence_step_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-003.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-004.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-005.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-006.png",
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "key_milestone": "步骤 2 首屏加载 -> 步骤 7 理解产品 -> 步骤 2 找到主要入口 -> 完成任务（mission_completed）",
+      "improvement_suggestion": "压缩用户理解路径，把关键定位、入口和信任信息前移。"
+    },
+    {
+      "criterion_id": "trust_and_confidence",
+      "result": "partial",
+      "summary": "页面提供了部分信任信号：内容维护，但不足以完全建立用户信心",
+      "evidence_fact_ids": [
+        "fact_trust_signals"
+      ],
+      "evidence_step_ids": [
+        7
+      ],
+      "evidence_screenshots": [
+        "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+      ],
+      "key_milestone": "发现部分信任信号",
+      "improvement_suggestion": "补充评分、用户评价、品牌背书、安全隐私说明或官方认证等信任信息。"
+    }
+  ],
+  "screenshots": [
+    "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+    "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-003.png",
+    "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-004.png",
+    "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-005.png",
+    "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-006.png",
+    "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+  ]
+}

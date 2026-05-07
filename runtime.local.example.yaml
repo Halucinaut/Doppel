@@ -1,0 +1,14 @@
+provider: "openai-compatible"
+api_key: "${DOPPEL_RUNTIME_API_KEY}"
+base_url: "https://open.bigmodel.cn/api/paas/v4"
+runtime_model: "glm-4.6v-flash"
+
+fallback_providers:
+  - provider: "openai-compatible"
+    api_key: "${DOPPEL_RUNTIME_FALLBACK_API_KEY}"
+    base_url: "https://integrate.api.nvidia.com/v1"
+    runtime_model: "moonshotai/kimi-k2.6"
+  - provider: "openai-compatible"
+    api_key: "${DOPPEL_RUNTIME_FALLBACK_VISION_API_KEY}"
+    base_url: "https://integrate.api.nvidia.com/v1"
+    runtime_model: "llama-3.2-90b-vision-instruct"

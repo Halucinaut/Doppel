@@ -10,7 +10,7 @@ Synthetic user runtime for experiential testing.
 
 Doppel 用 synthetic user 运行一次真实的产品体验路径，回答传统测试很难覆盖的问题：第一次进入产品的用户能否理解它、找到主要入口，并在关键路径上继续行动。
 
-当前版本支持 Web 页面体验测试、远程站点或本地预览环境、persona 与 judge skill 配置、浏览器运行证据采集、facts 提取、criteria 评估、单次报告和多 persona 批量报告。它更适合体验预检和体验回归，不能替代单元测试、接口测试、安全审计或真实用户研究。
+v0.1.0 已支持 Web 页面体验测试、browser-use runtime、远程站点与本地预览、persona 配置、judge skill、facts 提取、criteria 评估、Markdown/JSON 报告、多 persona batch、runtime fallback 和点击目标标注。它更适合体验预检和体验回归，不能替代单元测试、接口测试、安全审计或真实用户研究。
 
 ## 灵感来源
 
@@ -48,7 +48,7 @@ Doppel 的执行路径是：读取 `product.yaml`、`personas.yaml` 和 judge sk
 
 | Version | Status | Supported or Completed | Planned Updates |
 | --- | --- | --- | --- |
-| 0.1.0 | Completed | Web 页面体验测试、browser-use 运行时、远程站点和本地预览、persona 配置、judge skill YAML、facts 提取、criteria 评估、Markdown 和 JSON 报告、多 persona 批量运行、运行时模型重试与轮转、点击目标标注 | 稳定 API、完善公开示例、整理包发布元数据 |
+| 0.1.0 | Completed | Web 页面体验测试、browser-use runtime、远程站点和本地预览、persona 配置、judge skill YAML、facts 提取、criteria 评估、Markdown 和 JSON 报告、多 persona batch、runtime fallback、点击目标标注、`ai-bot.cn` 官方展示样例 | 稳定 API、完善包发布元数据 |
 | 0.2.0 | Planned | 当前 Web 运行链路继续稳定 | 支持 judge skill 目录、可组合评测模板、更多内置 criteria、报告可视化增强 |
 | 0.3.0 | Planned | 当前 sandbox 继续保留 | 强化隔离账号、种子数据、状态重置、版本对比和体验回归基线 |
 | 0.4.0 | Planned | 当前 CLI 继续保留 | 接入 GitHub Actions 等 CI/CD 流程，在提交、部署或发布前自动运行体验评测 |
@@ -68,54 +68,26 @@ pip install -e .[dev]
 
 如果要运行真实浏览器链路，需要安装 Playwright 浏览器资源。仓库默认支持从工作区 `.playwright-browsers` 读取浏览器。
 
-最小配置包含三个文件：`product.yaml` 描述目标产品和 sandbox，`personas.yaml` 描述用户画像，judge skill 描述 mission、停止条件和评判标准。当前 judge skill 可以是一个 YAML 文件，后续会支持目录化 skill 包。
-
-```yaml
-name: "PodFlow"
-entry_url: "https://example.com"
-description: "A podcast listening and discovery platform"
-
-sandbox:
-  mode: "remote"
-  seed_state: "new_user"
-```
-
-```yaml
-name: "首次发现"
-version: "1.0"
-persona: "newcomer"
-
-mission: |
-  你第一次进入这个产品。
-  请尝试理解它是做什么的，并识别主要入口。
-
-stop_conditions:
-  - "你已经理解主要行动入口"
-  - "你会选择离开这个产品"
-
-judge_criteria:
-  - id: "path_efficiency"
-    question: "用户找到主要行动入口的路径是否直接？"
-    good: "用户很快找到了入口"
-    bad: "用户用了太多步骤，或路径不清晰"
-```
+v0.1.0 的官方展示样例是 `examples/ai-bot-cn`。这个样例包含 `product.yaml`、`personas.yaml`、基础 `skill.yaml`、四个角色的 `skill-*.yaml`，以及一组精选 artifacts。目标页面是 `https://ai-bot.cn/`，任务是判断新用户能否理解 AI 工具导航站的用途、找到搜索或分类入口，并形成可信度判断。
 
 校验配置：
 
 ```bash
 doppel validate \
-  --product examples/basic/product.yaml \
-  --skill examples/basic/skill.yaml \
-  --personas examples/basic/personas.yaml
+  --product examples/ai-bot-cn/product.yaml \
+  --skill examples/ai-bot-cn/skill.yaml \
+  --personas examples/ai-bot-cn/personas.yaml
 ```
 
 运行单个 judge skill：
 
 ```bash
 doppel run \
-  --product examples/basic/product.yaml \
-  --skill examples/basic/skill.yaml \
-  --personas examples/basic/personas.yaml
+  --product examples/ai-bot-cn/product.yaml \
+  --skill examples/ai-bot-cn/skill.yaml \
+  --personas examples/ai-bot-cn/personas.yaml \
+  --runtime-config runtime.local.yaml \
+  --decision-provider browser-use
 ```
 
 使用 OpenAI 兼容模型时，创建本地 `runtime.local.yaml`，不要提交真实密钥：
@@ -132,6 +104,8 @@ fallback_providers:
     runtime_model: "moonshotai/kimi-k2.6"
 ```
 
+仓库提供了 `runtime.local.example.yaml` 和 `.env.example`，真实密钥应写入本地 `runtime.local.yaml` 或环境变量，并被 `.gitignore` 排除。
+
 运行多 persona 批量评测：
 
 ```bash
@@ -145,6 +119,28 @@ doppel batch \
 ```
 
 运行完成后，输出目录包含 `session.json`、`run_meta.json`、`prompt_context.json`、`facts.json`、`evaluation.json`、`report.md`、`report.json`、`screenshots/`。批量运行会额外生成 `batch_report.md` 和 `batch_summary.json`。
+
+精选 artifacts 已固化在 `examples/ai-bot-cn/artifacts/v0.1.0`，用于展示 v0.1.0 的真实输出结构：
+
+```text
+examples/ai-bot-cn/artifacts/v0.1.0/
+  single-newcomer/
+    session.json
+    facts.json
+    evaluation.json
+    report.md
+    report.json
+    screenshots/
+  batch/
+    batch_report.md
+    batch_summary.json
+    ai-bot-newcomer/report.md
+    ai-bot-designer/report.md
+    ai-bot-product_manager/report.md
+    ai-bot-privacy_cautious/report.md
+```
+
+一次真实 batch 摘要显示，四个 persona 都完成了任务：新手和产品经理识别并点击了搜索框，设计师点击了 AI 设计工具，谨慎用户选择关于我们路径来验证信任信息。报告同时暴露了首屏产品定位不够明确、部分角色没有触发滚动、信任信号不足、模型结构化输出偶发不稳定等问题。示例报告见 `examples/ai-bot-cn/artifacts/v0.1.0/batch/batch_report.md`。
 
 ## License
 

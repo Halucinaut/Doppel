@@ -1,0 +1,159 @@
+{
+  "generated_at": "2026-05-07T12:04:57.129203+00:00",
+  "run_count": 4,
+  "runs": [
+    {
+      "skill_path": "examples/ai-bot-cn/skill-designer.yaml",
+      "attempt_count": 1,
+      "run_id": "11dfad03ed18",
+      "persona_id": "designer",
+      "persona_name": "设计师 沈乔",
+      "artifact_dir": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer",
+      "stop_reason": "mission_completed",
+      "step_count": 3,
+      "report_path": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-designer/report.md",
+      "evaluation": [
+        {
+          "criterion_id": "first_screen_clarity",
+          "result": "partial",
+          "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途"
+        },
+        {
+          "criterion_id": "primary_action",
+          "result": "pass",
+          "summary": "步骤 2 成功识别并点击主要入口「AI设计工具」，入口明显且易于理解"
+        },
+        {
+          "criterion_id": "scroll_discovery",
+          "result": "partial",
+          "summary": "Agent 未发生滚动，无法验证首屏以下信息层次"
+        },
+        {
+          "criterion_id": "path_efficiency",
+          "result": "pass",
+          "summary": "路径高效，3 步内完成：步骤 2 首屏加载 -> 步骤 3 理解产品 -> 步骤 2 找到主要入口 -> 完成任务（mission_completed）"
+        },
+        {
+          "criterion_id": "trust_and_confidence",
+          "result": "fail",
+          "summary": "页面缺少信任信号（如评分、评价、品牌背书等），用户难以判断是否值得继续"
+        }
+      ]
+    },
+    {
+      "skill_path": "examples/ai-bot-cn/skill-newcomer.yaml",
+      "attempt_count": 1,
+      "run_id": "7398842e3d16",
+      "persona_id": "newcomer",
+      "persona_name": "AI 工具新手 林然",
+      "artifact_dir": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-newcomer",
+      "stop_reason": "mission_completed",
+      "step_count": 7,
+      "report_path": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-newcomer/report.md",
+      "evaluation": [
+        {
+          "criterion_id": "first_screen_clarity",
+          "result": "partial",
+          "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途"
+        },
+        {
+          "criterion_id": "primary_action",
+          "result": "pass",
+          "summary": "步骤 2 成功识别并点击主要入口「搜索框」，入口明显且易于理解"
+        },
+        {
+          "criterion_id": "scroll_discovery",
+          "result": "pass",
+          "summary": "通过 1 次滚动，Agent 依次发现了：向下滚动成功，页面展示了更多内容，包括AI快讯/项目/百科标签页、热门工具卡片（豆包、LibTV、秒哒等）、最新收录以及AI写作工具和AI图像工具分类列表。；下，信息层次分明"
+        },
+        {
+          "criterion_id": "path_efficiency",
+          "result": "partial",
+          "summary": "路径可接受但存在优化空间，7 步完成，其中 0 步为冗余操作（无明显重复动作）"
+        },
+        {
+          "criterion_id": "trust_and_confidence",
+          "result": "partial",
+          "summary": "页面提供了部分信任信号：内容维护，但不足以完全建立用户信心"
+        }
+      ]
+    },
+    {
+      "skill_path": "examples/ai-bot-cn/skill-privacy.yaml",
+      "attempt_count": 2,
+      "run_id": "cbb9d1182f49",
+      "persona_id": "privacy_cautious",
+      "persona_name": "谨慎用户 陈澈",
+      "artifact_dir": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious",
+      "stop_reason": "mission_completed",
+      "step_count": 7,
+      "report_path": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-privacy_cautious/report.md",
+      "evaluation": [
+        {
+          "criterion_id": "first_screen_clarity",
+          "result": "partial",
+          "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途"
+        },
+        {
+          "criterion_id": "primary_action",
+          "result": "partial",
+          "summary": "步骤 3 点击了「关于我们」，但主要入口不够突出导致 Agent 选择了其他路径"
+        },
+        {
+          "criterion_id": "scroll_discovery",
+          "result": "partial",
+          "summary": "Agent 未发生滚动，无法验证首屏以下信息层次"
+        },
+        {
+          "criterion_id": "path_efficiency",
+          "result": "partial",
+          "summary": "路径可接受但存在优化空间，7 步完成，其中 3 步为冗余操作（连续等待）"
+        },
+        {
+          "criterion_id": "trust_and_confidence",
+          "result": "partial",
+          "summary": "页面提供了部分信任信号：内容维护、品牌背书，但不足以完全建立用户信心"
+        }
+      ]
+    },
+    {
+      "skill_path": "examples/ai-bot-cn/skill-product-manager.yaml",
+      "attempt_count": 1,
+      "run_id": "d0ce003453ea",
+      "persona_id": "product_manager",
+      "persona_name": "产品经理 周屿",
+      "artifact_dir": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager",
+      "stop_reason": "mission_completed",
+      "step_count": 7,
+      "report_path": "examples/ai-bot-cn/artifacts/v0.1.0/batch/ai-bot-product_manager/report.md",
+      "evaluation": [
+        {
+          "criterion_id": "first_screen_clarity",
+          "result": "partial",
+          "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途"
+        },
+        {
+          "criterion_id": "primary_action",
+          "result": "pass",
+          "summary": "步骤 3 成功识别并点击主要入口「搜索框」，入口明显且易于理解"
+        },
+        {
+          "criterion_id": "scroll_discovery",
+          "result": "pass",
+          "summary": "通过 1 次滚动，Agent 依次发现了：成功向下滚动页面，页面显示了更多内容，包括搜索框、分类入口和热门工具列表。页面内容丰富，显示了多个AI工具分类和具体工具推荐。；下一步目标：点击搜索框，测试站点，信息层次分明"
+        },
+        {
+          "criterion_id": "path_efficiency",
+          "result": "partial",
+          "summary": "路径可接受但存在优化空间，7 步完成，其中 0 步为冗余操作（无明显重复动作）"
+        },
+        {
+          "criterion_id": "trust_and_confidence",
+          "result": "fail",
+          "summary": "页面缺少信任信号（如评分、评价、品牌背书等），用户难以判断是否值得继续"
+        }
+      ]
+    }
+  ],
+  "source_output_note": "Curated from examples/ai-bot-cn/output after a v0.1.0 batch run; transient failed retry directories and browser-use conversation logs are intentionally omitted."
+}

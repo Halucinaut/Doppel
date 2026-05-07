@@ -1,0 +1,99 @@
+[
+  {
+    "criterion_id": "first_screen_clarity",
+    "result": "partial",
+    "summary": "步骤 2 首屏加载成功，但页面信息不足以让 Agent 理解产品用途",
+    "evidence_fact_ids": [
+      "fact_first_content_step",
+      "fact_understanding_summary",
+      "fact_understanding_step"
+    ],
+    "evidence_step_ids": [
+      2,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+    ],
+    "key_milestone": "步骤 2 首屏加载",
+    "improvement_suggestion": "在首屏补充一句明确的产品定位、目标用户和核心价值，降低首次理解成本。"
+  },
+  {
+    "criterion_id": "primary_action",
+    "result": "pass",
+    "summary": "步骤 2 成功识别并点击主要入口「搜索框」，入口明显且易于理解",
+    "evidence_fact_ids": [
+      "fact_first_click_step",
+      "fact_click_target"
+    ],
+    "evidence_step_ids": [
+      2
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png"
+    ],
+    "key_milestone": "步骤 2 点击主要入口",
+    "improvement_suggestion": null
+  },
+  {
+    "criterion_id": "scroll_discovery",
+    "result": "partial",
+    "summary": "Agent 未发生滚动，无法验证首屏以下信息层次",
+    "evidence_fact_ids": [
+      "fact_scroll_count"
+    ],
+    "evidence_step_ids": [],
+    "evidence_screenshots": [],
+    "key_milestone": "未触发滚动发现",
+    "improvement_suggestion": "确保首屏能引导用户继续浏览，或让核心价值在首屏完整表达。"
+  },
+  {
+    "criterion_id": "path_efficiency",
+    "result": "partial",
+    "summary": "路径可接受但存在优化空间，7 步完成，其中 0 步为冗余操作（无明显重复动作）",
+    "evidence_fact_ids": [
+      "fact_step_count",
+      "fact_first_content_step",
+      "fact_understanding_step",
+      "fact_first_click_step",
+      "fact_stop_reason",
+      "fact_redundant_steps"
+    ],
+    "evidence_step_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-002.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-003.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-004.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-005.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-006.png",
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+    ],
+    "key_milestone": "步骤 2 首屏加载 -> 步骤 7 理解产品 -> 步骤 2 找到主要入口 -> 完成任务（mission_completed）",
+    "improvement_suggestion": "压缩用户理解路径，把关键定位、入口和信任信息前移。"
+  },
+  {
+    "criterion_id": "trust_and_confidence",
+    "result": "partial",
+    "summary": "页面提供了部分信任信号：内容维护，但不足以完全建立用户信心",
+    "evidence_fact_ids": [
+      "fact_trust_signals"
+    ],
+    "evidence_step_ids": [
+      7
+    ],
+    "evidence_screenshots": [
+      "examples/ai-bot-cn/artifacts/v0.1.0/single-newcomer/screenshots/step-007.png"
+    ],
+    "key_milestone": "发现部分信任信号",
+    "improvement_suggestion": "补充评分、用户评价、品牌背书、安全隐私说明或官方认证等信任信息。"
+  }
+]

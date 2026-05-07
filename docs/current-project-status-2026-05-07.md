@@ -1,187 +1,46 @@
-# Doppel 当前项目现状评审
+# Doppel 当前项目状态
 
-评审日期：2026-05-07
+状态日期：2026-05-07
 
-评审依据：`zao.live` 四角色真实浏览评测样本、当前代码结构、报告产物、运行过程中的失败与重跑记录。
+当前状态：v0.1.0 MVP closed。
 
-## 1. 当前结论
+Doppel 已完成一个可演示、可验证、可上传的阶段性闭环。当前版本可以读取产品配置、persona 配置和 judge skill，启动 browser-use runtime 访问真实 Web 页面，记录 session artifacts，提取 facts，按 criteria 输出 evaluation，并生成 Markdown/JSON 报告。`ai-bot.cn` 已固定为 v0.1.0 的官方展示样例。
 
-Doppel 当前已经完成一个可演示、可验证、可上传占位的 MVP：它可以读取产品、persona 和 judge skill 配置，驱动浏览器 Agent 执行真实页面任务，记录 session artifacts，提取体验事实，按评判标准生成 `evaluation.json` 和 `report.md`。
+## 已完成闭环
 
-项目尚未达到正式结项状态。当前更准确的判断是：MVP 主链路可以阶段性结项，项目整体不应结项。
+v0.1.0 已支持 Web 页面体验测试、browser-use runtime、远程站点与本地预览、persona 配置、judge skill、facts 提取、criteria 评估、Markdown/JSON 报告、多 persona batch、runtime fallback 和点击目标标注。
 
-核心原因很具体：真实浏览链路已经跑通，但运行稳定性、批量多 persona 能力、模型结构化输出控制、评判事实质量和工程化入口还不够稳定，不能被视为一个可长期使用的完整产品。
+当前 CLI 主入口包括三条命令：`doppel validate` 校验配置，`doppel run` 跑单 persona，`doppel batch` 跑多 persona 并生成横向汇总。
 
-## 2. 本次 case 覆盖范围
+## 主示例
 
-本次以 `https://zao.live/` 作为目标页面，设计并运行了 4 个 persona：
+官方展示样例位于 `examples/ai-bot-cn`。该示例包含：
 
-| Persona | 关注点 | 运行结果 |
-| --- | --- | --- |
-| 纯新手用户 林然 | 首次理解、主入口、是否值得继续 | `mission_completed` |
-| 视觉设计师 沈乔 | 视觉层级、美学、按钮权重、页面节奏 | `mission_completed` |
-| 产品经理 周屿 | 转化路径、价值表达、入口跳转反馈 | `mission_completed` |
-| 隐私谨慎用户 陈澈 | 评分、评价、开发者、隐私与可信信息 | `mission_completed` |
-
-产物目录：
-
-- 纯新手用户：`examples/zao-live/output/zao-live-f1656eae55e2`
-- 视觉设计师：`examples/zao-live/output/zao-live-2d0eddf3500c`
-- 产品经理：`examples/zao-live/output/zao-live-f41e9af27dbd`
-- 隐私谨慎用户：`examples/zao-live/output/zao-live-0a2e85925f1c`
-
-这组 case 已经覆盖一个完整 Web 落地页评测的关键路径：加载、首屏理解、滚动发现、主入口点击、跳转到应用商店、信任信号识别、结构化报告输出。
-
-## 3. 样本评测结果
-
-四个 persona 的共性结论清晰：页面能在后续内容和应用商店页建立产品理解与信任，但首屏加载和路径效率表现不稳定，部分角色需要多次等待和滚动才能形成判断。
-
-### 纯新手用户
-
-运行 ID：`f1656eae55e2`
-
-结论：纯新手完成了任务，但体验路径较差。首屏第 8 步才显示内容，Agent 没有点击主入口即停止，滚动 5 次才获取足够信息。报告判断首屏清晰度失败、主要行动入口失败、路径效率失败，信任信号只有用户评价，仍不足以建立完整信心。
-
-这个结果说明 Doppel 能识别“任务完成但体验不佳”的情况，而不是简单把 `mission_completed` 视为全部通过。
-
-### 视觉设计师
-
-运行 ID：`2d0eddf3500c`
-
-结论：设计师角色识别并点击了「立即下载」，信任信号充分，但运行用了 25 步，滚动 7 次，路径效率失败。该角色在运行过程中出现多次模型结构化输出失败和超时，最终完成但成本偏高。
-
-这个结果说明当前浏览器 Agent 对复杂观察任务仍容易长链发散，尤其在视觉评审类 mission 中，模型会反复滚动和重新组织判断。
-
-### 产品经理
-
-运行 ID：`f41e9af27dbd`
-
-结论：产品经理角色在 6 步内完成转化路径评估，步骤 4 点击「立即下载」，信任信号充分。但首屏清晰度为 partial，滚动发现为 fail，说明 Agent 很快进入下载路径，但没有在落地页阶段形成充分信息递进。
-
-产品经理角色曾有两轮无效运行：一轮停在 `about:blank`，一轮进入应用商店后总结阶段超时。随后补充了 `about:blank` 导航约束，并收敛 skill 的停止条件，第三轮才稳定完成。这暴露了当前系统对 Agent 行为控制仍不足。
-
-### 隐私谨慎用户
-
-运行 ID：`0a2e85925f1c`
-
-结论：隐私谨慎用户完成任务，识别到品牌背书、安全隐私、用户评价等信任信号。但首屏第 7 步才显示内容，首次点击目标被记录为 `click: {'index': 30}`，主入口评判只能给 partial。
-
-这个结果说明当前 fact extraction 对点击目标文案的解析仍有缺口。只拿到元素 index 时，评判器无法稳定判断入口语义。
-
-## 4. 当前已具备能力
-
-### 配置与运行
-
-当前已经支持 `product.yaml`、`personas.yaml`、单文件 judge skill、`runtime.local.yaml`。CLI 支持 `validate` 和 `run`，能够针对远程 Web 页面启动 `browser-use` 路径。
-
-### 多 persona 评测
-
-当前已经能通过多份 skill 文件手动运行多个 persona。`zao.live` 样本中新增了 4 个 persona 和 4 份对应 skill：
-
+- `product.yaml`
+- `personas.yaml`
+- `skill.yaml`
 - `skill-newcomer.yaml`
 - `skill-designer.yaml`
 - `skill-product-manager.yaml`
 - `skill-privacy.yaml`
+- `artifacts/v0.1.0`
 
-但多 persona 仍不是一等能力。现在需要人工逐个运行，缺少批量调度、统一汇总、横向对比和失败重试策略。
+`artifacts/v0.1.0/single-newcomer` 保存了单 persona 运行核心 artifacts，包括 `session.json`、`facts.json`、`evaluation.json`、`report.md`、`report.json` 和关键截图。`artifacts/v0.1.0/batch` 保存了 batch 汇总和四个 persona 的独立报告。
 
-### 真实浏览执行
+## 当前示例结论
 
-浏览器 Agent 能够进入真实页面、等待加载、滚动、点击、跳转到 App Store 页面，并基于页面内容生成完成总结。当前还加入了模型轮转、重试、OpenAI 兼容接口适配、中文输出约束和 `about:blank` 导航约束。
+`ai-bot.cn` batch 示例中，四个 persona 都以 `mission_completed` 结束。新手和产品经理识别并点击了搜索框，设计师点击了 AI 设计工具，谨慎用户通过关于我们路径寻找信任信息。
 
-### 证据和评判
+报告暴露出的主要体验问题是：首屏产品定位仍不够直接，部分角色没有触发滚动发现，信任信号在不同路径下暴露不稳定，模型偶发 JSON 格式错误和超时。Doppel 能把这些问题落到步骤、facts、截图和评估结论中，而不是只给出“任务完成”。
 
-事实提取已经从基础统计升级为体验证据提取，当前可提取：
+## 已知限制
 
-- 首次非空白页面步骤
-- 首次点击步骤
-- 点击目标
-- 滚动次数和滚动发现
-- 产品理解步骤和理解摘要
-- 信任信号
-- 冗余步骤
+当前限制主要在运行稳定性和证据质量。多模态模型仍可能输出无效 JSON、超时或重复行动；browser-use 的元素编号会受页面动态变化影响；facts 提取仍以启发式规则为主；桌面应用、虚拟机运行、CI/CD、历史版本对比和 judge skill package 尚未实现。
 
-`evaluation.json` 已支持截图证据、关键里程碑和改进建议。评判结果已经不是通用话术，而是能引用具体步骤和行为证据。
+这些限制不阻碍 v0.1.0 MVP 结项。它们属于后续从“可演示闭环”走向“稳定可用工具”的路线。
 
-### 报告输出
+## 结项判断
 
-每轮运行都会输出 `session.json`、`facts.json`、`evaluation.json`、`report.json`、`report.md` 和截图目录。报告已经能呈现体验摩擦点、评判标准、事实和截图证据。
+v0.1.0 可以阶段性结项，并可以宣布 MVP 阶段成功。项目已经证明 synthetic user 体验评测流水线可行，能在真实 Web 页面上产出多 persona、证据驱动的评测报告。
 
-## 5. 当前主要问题
-
-### 运行稳定性不足
-
-本次四角色评测中出现过这些问题：
-
-- 页面初始状态长时间停在 `about:blank`
-- 页面就绪超时
-- 模型返回空动作
-- JSON 结构化输出解析失败
-- 模型调用 75 秒超时
-- Agent 在已经拿到足够信息后继续滚动或等待
-
-这些问题没有阻止最终形成四份有效报告，但说明当前系统仍依赖人工观察、重跑和 prompt 收敛。
-
-### 批量运行缺失
-
-多 persona 评测现在通过多份 skill 文件和 shell 循环完成。系统没有内建 batch run，没有统一 run group，没有跨 persona 汇总报告，也没有“单个角色失败后重跑”的策略。
-
-这会影响项目从样例演示走向日常使用。
-
-### Agent 控制仍偏弱
-
-产品经理角色前两轮失败说明：Agent 对“当前页是空白页应该导航入口”“进入应用详情页后应该立即结束”这类约束仍需要显式写进 prompt。当前控制手段主要是 prompt 和模型轮转，还没有更强的运行时 guardrail。
-
-更合理的下一步是把关键规则下沉到 runtime，例如检测 `about:blank` 时强制导航入口，检测应用商店页和任务满足条件时允许 runtime 建议停止。
-
-### 事实提取仍有误差
-
-隐私谨慎用户的点击目标被记录为 `click: {'index': 30}`，导致主要入口只能 partial。产品理解摘要也依赖 Agent 的自然语言推理，存在抽取到泛化表述的风险。
-
-当前评判系统已经比基础版本强很多，但仍属于启发式规则，不是稳定的语义证据系统。
-
-### 样本覆盖仍窄
-
-当前最强样本只有 `zao.live` 一个真实站点。它证明了 Web 落地页场景可跑通，但没有证明复杂登录、多页面工作流、表单输入、错误恢复、账号隔离、本地预览、CI 运行等场景可用。
-
-## 6. 项目成熟度判断
-
-### 可以视为已完成的部分
-
-MVP 主链路可以阶段性结项。理由如下：
-
-- 配置到运行到报告的链路闭合。
-- 真实 Web 页面浏览可跑通。
-- 多 persona 可以通过配置实现。
-- 评判系统已经能输出具体步骤、截图证据、关键里程碑和改进建议。
-- 样本报告能暴露实际体验问题，而不是只给任务完成状态。
-
-### 不能视为已完成的部分
-
-项目整体不能结项。理由如下：
-
-- 运行稳定性不足，仍需要人工重跑和观察。
-- 多 persona 不是一等功能。
-- 模型结构化输出和长链任务控制不稳定。
-- 点击目标、产品理解、信任信号等事实抽取仍有启发式误差。
-- 只有单一真实 case，无法证明泛化能力。
-- 缺少批量汇总、版本对比、CI 接入和失败恢复机制。
-
-## 7. 是否可以结项
-
-结论：不建议项目整体结项。
-
-可以做一次“MVP 里程碑结项”，把当前状态定义为：Doppel 已经证明 synthetic user 体验评测流水线可行，并能在真实 Web 落地页上产出多 persona、证据驱动的评测报告。
-
-不能做“项目结项”，因为当前系统还没有达到稳定产品或可复用工具的标准。它仍处在从原型走向可用工具的中间阶段。
-
-## 8. 下一阶段最小工作包
-
-如果继续推进，建议下一阶段只做 4 件事：
-
-1. 批量多 persona 运行：增加一个 batch 命令或 run group，支持一次读取多个 skill/persona，输出横向汇总报告。
-2. Runtime guardrail：把 `about:blank` 强制导航、禁止搜索、任务满足后建议停止等规则下沉到运行时。
-3. 证据质量提升：改进点击目标解析、页面文本快照、首屏内容识别和信任信号分类，减少依赖 Agent 推理文本。
-4. 样本矩阵扩展：至少增加 3 类真实样本，分别覆盖 SaaS 落地页、登录后流程、本地预览应用。
-
-完成这 4 件事后，项目可以从“MVP 可演示”进入“早期可用工具”阶段。
+下一阶段目标不应继续扩大 MVP 范围，而应围绕 runtime guardrail、batch run group、evidence quality、first-screen snapshot、CI integration、judge skill package、sample matrix 和 report comparison 做稳定化。
