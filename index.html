@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doppel — 在真实用户来之前，先让 AI 帮你测一遍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #FFFCF7;
+  --white: #FFFFFF;
+  --card: #FFFFFF;
+  --subtle: #F8F5F0;
+  --ink: #1A1612;
+  --ink-2: #6B6560;
+  --ink-3: #B5AFA8;
+  --accent: #C2762A;
+  --accent-soft: #FDF4EB;
+  --accent-deep: #A8611F;
+  --green: #0FA573;
+  --green-soft: #E8FBF2;
+  --red: #E5484D;
+  --red-soft: #FFF0F0;
+  --orange: #F08C28;
+  --orange-soft: #FFF6E8;
+  --border: #EDEAE6;
+  --shadow: 0 2px 20px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
+  --r: 16px;
+  --r-sm: 10px;
+  --sans: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Slide (shared) ===== */
+.slide {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 24px;
+  position: relative;
+}
+.slide-inner {
+  max-width: 720px; width: 100%;
+  text-align: center;
+}
+
+/* ===== Slide 1: Hero ===== */
+.slide-hero { background: var(--bg); }
+.hero-logo img { height: 120px; margin-bottom: 40px; }
+.hero-tag {
+  display: inline-block;
+  background: var(--accent-soft); color: var(--accent);
+  padding: 6px 18px; border-radius: 100px;
+  font-size: 14px; font-weight: 700;
+  margin-bottom: 32px;
+}
+.hero-title {
+  font-size: clamp(36px, 7vw, 60px);
+  font-weight: 900; line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 28px;
+}
+.hero-title .hl {
+  background: linear-gradient(135deg, var(--accent), #D98E4A);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 20px; color: var(--ink-2);
+  line-height: 1.8;
+  max-width: 540px; margin: 0 auto;
+}
+
+/* ===== Slide 2: Pain ===== */
+.slide-pain { background: var(--white); }
+.pain-emoji { font-size: 64px; margin-bottom: 24px; }
+.pain-title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 900; line-height: 1.3;
+  margin-bottom: 28px;
+}
+.pain-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 36px; text-align: left;
+}
+@media (max-width: 640px) { .pain-grid { grid-template-columns: 1fr; } }
+.pain-col {
+  background: var(--white);
+  border-radius: var(--r);
+  padding: 28px;
+  border: 1.5px solid var(--border);
+}
+.pain-col.can { border-top: 3px solid var(--green); }
+.pain-col.cant { border-top: 3px solid var(--red); }
+.pain-col h3 {
+  font-size: 15px; font-weight: 700; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.pain-col.can h3 { color: var(--green); }
+.pain-col.cant h3 { color: var(--red); }
+.pain-col ul { list-style: none; }
+.pain-col li {
+  font-size: 15px; color: var(--ink-2);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 10px;
+  line-height: 1.6;
+}
+.pain-col li:last-child { border-bottom: none; }
+.pain-col li .icon { flex-shrink: 0; margin-top: 2px; }
+.pain-punch {
+  font-size: 20px; font-weight: 700;
+  color: var(--ink);
+  padding: 20px 28px;
+  background: var(--accent-soft);
+  border-radius: var(--r-sm);
+  display: inline-block;
+}
+
+/* ===== Slide 3: What ===== */
+.slide-what { background: var(--bg); }
+.what-title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 900; line-height: 1.3;
+  margin-bottom: 36px;
+}
+.what-flow {
+  display: flex; flex-direction: column; gap: 16px;
+  text-align: left;
+  margin-bottom: 36px;
+}
+.what-step {
+  display: flex; align-items: center; gap: 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.what-step:hover { transform: translateX(4px); box-shadow: var(--shadow); }
+.what-step-num {
+  flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent-soft); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 18px; font-weight: 700;
+}
+.what-step-text h4 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.what-step-text p { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.what-note {
+  font-size: 15px; color: var(--ink-3);
+  font-style: italic;
+}
+
+/* ===== Slide 4: Demo story ===== */
+.slide-demo { background: var(--white); }
+.demo-title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 900; line-height: 1.3;
+  margin-bottom: 12px;
+}
+.demo-subtitle {
+  font-size: 16px; color: var(--ink-2);
+  margin-bottom: 36px;
+}
+.demo-persona-card {
+  background: var(--subtle);
+  border-radius: var(--r);
+  padding: 28px;
+  display: flex; align-items: center; gap: 20px;
+  margin-bottom: 28px;
+  text-align: left;
+  width: 100%;
+}
+.demo-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--accent-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; flex-shrink: 0;
+}
+.demo-persona-info h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.demo-persona-info p { font-size: 14px; color: var(--ink-2); }
+
+.demo-journey {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin-bottom: 28px;
+}
+@media (max-width: 600px) { .demo-journey { grid-template-columns: repeat(2, 1fr); } }
+.journey-step {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px 12px;
+  text-align: center;
+}
+.journey-step .j-num {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: var(--ink-3); margin-bottom: 6px;
+}
+.journey-step .j-icon { font-size: 24px; margin-bottom: 6px; }
+.journey-step .j-text { font-size: 12px; color: var(--ink-2); line-height: 1.4; }
+.journey-step.highlight {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.demo-result {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+}
+.demo-result-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.demo-result-header h4 { font-size: 15px; font-weight: 700; }
+.demo-result-header .verdict {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  padding: 4px 14px; border-radius: 100px;
+}
+.verdict.pass { background: var(--green-soft); color: var(--green); }
+.verdict.partial { background: var(--orange-soft); color: var(--orange); }
+.verdict.fail { background: var(--red-soft); color: var(--red); }
+
+.demo-result-body { padding: 24px; }
+.eval-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.eval-row:last-child { border-bottom: none; }
+.eval-dot {
+  flex-shrink: 0; width: 8px; height: 8px;
+  border-radius: 50%; margin-top: 8px;
+}
+.eval-dot.pass { background: var(--green); }
+.eval-dot.partial { background: var(--orange); }
+.eval-dot.fail { background: var(--red); }
+.eval-text { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.eval-text strong { color: var(--ink); font-weight: 600; }
+.eval-suggestion {
+  margin-top: 6px; font-size: 13px; color: var(--accent);
+  padding: 8px 12px; background: var(--accent-soft);
+  border-radius: 6px; display: inline-block;
+}
+
+/* ===== Slide 5: Batch ===== */
+.slide-batch { background: var(--bg); }
+.batch-title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 900; line-height: 1.3;
+  margin-bottom: 12px;
+}
+.batch-subtitle {
+  font-size: 16px; color: var(--ink-2);
+  margin-bottom: 40px;
+}
+.persona-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-bottom: 32px;
+}
+@media (max-width: 600px) { .persona-grid { grid-template-columns: 1fr; } }
+.persona-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  text-align: left;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.persona-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.persona-card-top {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 16px;
+}
+.persona-card-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.persona-card-avatar.p1 { background: #F3E8FF; }
+.persona-card-avatar.p2 { background: #DBEAFE; }
+.persona-card-avatar.p3 { background: #FEE2E2; }
+.persona-card-avatar.p4 { background: #D1FAE5; }
+.persona-card-name { font-size: 16px; font-weight: 700; }
+.persona-card-steps {
+  font-family: var(--mono); font-size: 13px; color: var(--ink-3);
+}
+.persona-card-action {
+  font-size: 14px; color: var(--ink-2);
+  padding: 10px 14px;
+  background: var(--subtle);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.persona-card-action strong { color: var(--ink); }
+.persona-card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.mini-tag {
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 100px;
+}
+.mini-tag.pass { background: var(--green-soft); color: var(--green); }
+.mini-tag.partial { background: var(--orange-soft); color: var(--orange); }
+.mini-tag.fail { background: var(--red-soft); color: var(--red); }
+
+.batch-insight {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px;
+  text-align: left;
+}
+.batch-insight h4 {
+  font-size: 15px; font-weight: 700; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.insight-list { list-style: none; }
+.insight-list li {
+  font-size: 15px; color: var(--ink-2);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.insight-list li:last-child { border-bottom: none; }
+.insight-list li .bullet {
+  flex-shrink: 0; color: var(--accent); font-weight: 700;
+}
+
+/* ===== Slide 6: Value ===== */
+.slide-value { background: var(--white); }
+.value-title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 900; line-height: 1.3;
+  margin-bottom: 36px;
+}
+.value-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-bottom: 40px;
+}
+@media (max-width: 600px) { .value-grid { grid-template-columns: 1fr; } }
+.value-card {
+  background: var(--subtle);
+  border-radius: var(--r);
+  padding: 28px;
+  text-align: left;
+}
+.value-card .v-icon { font-size: 32px; margin-bottom: 12px; }
+.value-card h4 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.value-card p { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+
+/* ===== Slide 7: CTA ===== */
+.slide-cta {
+  background: var(--ink);
+  color: #fff;
+  min-height: 60vh;
+}
+.slide-cta .slide-inner { max-width: 600px; }
+.cta-title {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900; line-height: 1.3;
+  margin-bottom: 20px;
+}
+.cta-sub {
+  font-size: 17px; color: rgba(255,255,255,0.6);
+  margin-bottom: 40px; line-height: 1.8;
+}
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 32px; border-radius: 12px;
+  font-size: 16px; font-weight: 700;
+  text-decoration: none; transition: all 0.25s;
+}
+.cta-btn-primary { background: var(--accent); color: #fff; }
+.cta-btn-primary:hover { background: #D98E4A; text-decoration: none; transform: translateY(-2px); }
+.cta-btn-secondary {
+  background: rgba(255,255,255,0.1); color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.cta-btn-secondary:hover { background: rgba(255,255,255,0.15); text-decoration: none; }
+.cta-code {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.06);
+  padding: 14px 24px;
+  border-radius: 10px;
+  display: inline-block;
+}
+.cta-code .hl { color: var(--accent); }
+.cta-footer {
+  margin-top: 48px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+}
+.cta-footer a { color: rgba(255,255,255,0.5); }
+.cta-footer a:hover { color: #fff; }
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .slide { padding: 60px 20px; }
+  .hero-logo img { height: 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<section class="slide slide-hero">
+  <div class="slide-inner">
+    <div class="hero-logo">
+      <img src="assets/doppel-pixel-logo.svg" alt="Doppel">
+    </div>
+    <h1 class="hero-title">
+      在真实用户来之前<br>
+      先让 AI <span class="hl">帮你用一遍</span>
+    </h1>
+    <p class="hero-sub">
+      你的产品，陌生人第一次来，<br>
+      能看懂吗？会用吗？会留下吗？
+    </p>
+  </div>
+</section>
+
+<!-- Slide 2: Pain Point -->
+<section class="slide slide-pain">
+  <div class="slide-inner">
+    <h2 class="pain-title">
+      测试全过，上线了，<br>
+      然后呢？
+    </h2>
+    <div class="pain-grid">
+      <div class="pain-col can">
+        <h3>✅ 现有测试能证明的</h3>
+        <ul>
+          <li><span class="icon">🔧</span> 按钮存在且可点击</li>
+          <li><span class="icon">🔌</span> 接口返回 200</li>
+          <li><span class="icon">⚡</span> 页面加载 1.2 秒</li>
+          <li><span class="icon">📋</span> 表单按预设步骤提交成功</li>
+        </ul>
+      </div>
+      <div class="pain-col cant">
+        <h3>❌ 真实用户会遇到的</h3>
+        <ul>
+          <li><span class="icon">🤔</span> 用户看到"开始使用"以为是试用，结果是下载客户端</li>
+          <li><span class="icon">😵</span> 用户觉得某个图标是设置，其实是核心功能入口</li>
+          <li><span class="icon">🚪</span> 用户看了 30 秒首页，还是不知道这产品是干什么的</li>
+          <li><span class="icon">🫥</span> 用户按自己的习惯操作，和你设计的路径完全相反</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pain-punch">
+      单元测试、接口测试、E2E、回归测试——<br>
+      没有一个能测出这些问题。
+    </div>
+  </div>
+</section>
+
+<!-- Slide 3: What is Doppel -->
+<section class="slide slide-what">
+  <div class="slide-inner">
+    <h2 class="what-title">
+      Doppel 的做法：<br>
+      放一个 AI 用户进去，<br>
+      看它怎么理解和使用你的产品
+    </h2>
+    <div class="what-flow">
+      <div class="what-step">
+        <div class="what-step-num">1</div>
+        <div class="what-step-text">
+          <h4>你告诉它产品是什么</h4>
+          <p>一个 URL、一句话描述、一个任务目标。越少信息越好——如果 AI 都看不懂，用户更看不懂。</p>
+        </div>
+      </div>
+      <div class="what-step">
+        <div class="what-step-num">2</div>
+        <div class="what-step-text">
+          <h4>它像真人一样使用</h4>
+          <p>打开页面、看截图、理解内容、点击入口、向下滚动。它看的是屏幕，不是代码，所以更接近真实用户视角。</p>
+        </div>
+      </div>
+      <div class="what-step">
+        <div class="what-step-num">3</div>
+        <div class="what-step-text">
+          <h4>它生成一份体验报告</h4>
+          <p>走了几步？点了什么？在哪里犹豫了？哪里看懂了？哪里放弃了？每条结论都绑定截图和行为证据。</p>
+        </div>
+      </div>
+    </div>
+    <p class="what-note">它适合作为发布前的体验预检层，把明显路径问题提前暴露出来。</p>
+  </div>
+</section>
+
+<!-- Slide 4: Real Demo -->
+<section class="slide slide-demo">
+  <div class="slide-inner">
+    <h2 class="demo-title">他会给你这样的一份体验报告：</h2>
+    <p class="demo-subtitle">一个真实的 SaaS 落地页 · 任务：理解产品、找到注册入口、完成首次操作</p>
+
+    <div class="demo-persona-card">
+      <div class="demo-avatar">👩‍💻</div>
+      <div class="demo-persona-info">
+        <h3>独立开发者 · 小鱼</h3>
+        <p>从 Twitter 看到推荐链接点进来的。习惯先扫首屏，找不到价值主张就关掉。</p>
+      </div>
+    </div>
+
+    <div class="demo-journey">
+      <div class="journey-step">
+        <div class="j-num">STEP 1</div>
+        <div class="j-icon">🌐</div>
+        <div class="j-text">打开落地页</div>
+      </div>
+      <div class="journey-step">
+        <div class="j-num">STEP 2</div>
+        <div class="j-icon">👀</div>
+        <div class="j-text">盯着首屏看了 8 秒</div>
+      </div>
+      <div class="journey-step highlight">
+        <div class="j-num">STEP 3</div>
+        <div class="j-icon">👆</div>
+        <div class="j-text">点了"功能介绍"而非"开始使用"</div>
+      </div>
+      <div class="journey-step">
+        <div class="j-num">STEP 4-9</div>
+        <div class="j-icon">🔄</div>
+        <div class="j-text">在功能页和首页之间跳了 3 次</div>
+      </div>
+    </div>
+
+    <div class="demo-result">
+      <div class="demo-result-header">
+        <h4>📋 评审结果 · 3 项标准</h4>
+        <span style="font-family:var(--mono);font-size:13px;color:var(--ink-3);">mission_failed · 9 步 · 7 张截图</span>
+      </div>
+      <div class="demo-result-body">
+        <div class="eval-row">
+          <div class="eval-dot fail"></div>
+          <div>
+            <div class="eval-text"><strong>首屏清晰度 · 未通过</strong></div>
+            <div class="eval-text">小鱼在首屏停留了 8 秒，但没有形成产品理解。首屏用了"重新定义工作方式"这类抽象口号，缺少一句说清楚"这是什么、给谁用、能干嘛"的定位。</div>
+            <div class="eval-suggestion">💡 用一句话替代口号："给独立开发者的项目管理工具，5 分钟上手"</div>
+          </div>
+        </div>
+        <div class="eval-row">
+          <div class="eval-dot fail"></div>
+          <div>
+            <div class="eval-text"><strong>主行动入口 · 未通过</strong></div>
+            <div class="eval-text">小鱼没有点击"开始使用"CTA，而是点了"功能介绍"。主按钮被首屏的多个链接分散了注意力，视觉权重也不够突出。</div>
+            <div class="eval-suggestion">💡 弱化首屏的次要链接，把主 CTA 做大、做亮、做唯一</div>
+          </div>
+        </div>
+        <div class="eval-row">
+          <div class="eval-dot fail"></div>
+          <div>
+            <div class="eval-text"><strong>任务完成 · 未通过</strong></div>
+            <div class="eval-text">小鱼最终没有注册就离开了。离开前在页面停留了 2 分 14 秒，说明有兴趣，但产品没有把兴趣转化成行动。</div>
+            <div class="eval-suggestion">💡 在用户停留超过 30 秒时弹出轻量引导："需要帮你找到适合的方案吗？"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: Batch -->
+<section class="slide slide-batch">
+  <div class="slide-inner">
+    <h2 class="batch-title">
+      同一个产品<br>
+      不同用户会走出不同的路径
+    </h2>
+    <p class="batch-subtitle">同一个产品，4 种用户画像，看看他们分别怎么用</p>
+
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="persona-card-top">
+          <div class="persona-card-avatar p1">🎨</div>
+          <div>
+            <div class="persona-card-name">设计师 · 沈乔</div>
+            <div class="persona-card-steps">3 步理解产品</div>
+          </div>
+        </div>
+        <div class="persona-card-action">👆 点击了 <strong>「模板库」</strong>，快速理解产品价值</div>
+        <div class="persona-card-tags">
+          <span class="mini-tag pass">首屏理解 ✓</span>
+          <span class="mini-tag pass">路径高效 ✓</span>
+          <span class="mini-tag partial">未注册 ~</span>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-card-top">
+          <div class="persona-card-avatar p2">👩‍💻</div>
+          <div>
+            <div class="persona-card-name">独立开发者 · 小鱼</div>
+            <div class="persona-card-steps">9 步后放弃</div>
+          </div>
+        </div>
+        <div class="persona-card-action">👆 点击了 <strong>「功能介绍」</strong>，在首页和功能页之间反复跳转</div>
+        <div class="persona-card-tags">
+          <span class="mini-tag fail">首屏理解 ✗</span>
+          <span class="mini-tag partial">走偏了 ~</span>
+          <span class="mini-tag fail">未完成 ✗</span>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-card-top">
+          <div class="persona-card-avatar p3">👔</div>
+          <div>
+            <div class="persona-card-name">团队负责人 · 老张</div>
+            <div class="persona-card-steps">6 步找到价格</div>
+          </div>
+        </div>
+        <div class="persona-card-action">👆 点击了 <strong>「价格」</strong>，重点关注团队协作和权限管理</div>
+        <div class="persona-card-tags">
+          <span class="mini-tag pass">首屏理解 ✓</span>
+          <span class="mini-tag partial">价格入口偏深 ~</span>
+          <span class="mini-tag pass">任务完成 ✓</span>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-card-top">
+          <div class="persona-card-avatar p4">🔒</div>
+          <div>
+            <div class="persona-card-name">谨慎用户 · 陈澈</div>
+            <div class="persona-card-steps">8 步后离开</div>
+          </div>
+        </div>
+        <div class="persona-card-action">👆 点击了 <strong>「关于我们」</strong>，优先寻找公司背书和安全说明</div>
+        <div class="persona-card-tags">
+          <span class="mini-tag partial">信任不足 ~</span>
+          <span class="mini-tag partial">走偏了 ~</span>
+          <span class="mini-tag fail">未完成 ✗</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch-insight">
+      <h4>💡 跨角色发现</h4>
+      <ul class="insight-list">
+        <li><span class="bullet">→</span> 设计师 3 步就理解了产品，独立开发者 9 步后放弃——首屏信息密度对不同背景用户差异巨大</li>
+        <li><span class="bullet">→</span> 团队负责人直奔价格页，但价格入口藏得太深——决策者关心的信息应该更容易找到</li>
+        <li><span class="bullet">→</span> 谨慎用户没有点主入口，而是先去看「关于我们」——信任路径比功能路径更优先</li>
+        <li><span class="bullet">→</span> 4 人中 2 人没有完成注册——产品有兴趣，但没有把兴趣转化成行动</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 6: What you get -->
+<section class="slide slide-value">
+  <div class="slide-inner">
+    <h2 class="value-title">Doppel 看的不是分数，而是证据</h2>
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="v-icon">📸</div>
+        <h4>每一步截图</h4>
+        <p>用户看到了什么、点了哪里、在哪里停住了，全部有截图证据</p>
+      </div>
+      <div class="value-card">
+        <div class="v-icon">🧠</div>
+        <h4>行为事实提取</h4>
+        <p>首次点击目标、产品理解摘要、滚动发现、冗余步骤、信任信号</p>
+      </div>
+      <div class="value-card">
+        <div class="v-icon">⚖️</div>
+        <h4>结构化评估</h4>
+        <p>首屏清晰度、主入口识别、信息递进、路径效率、信任信号——每项有结论和改进建议</p>
+      </div>
+      <div class="value-card">
+        <div class="v-icon">📊</div>
+        <h4>批量对比报告</h4>
+        <p>多个用户画像同时跑，生成跨角色对比——谁看懂了、谁迷路了、谁放弃了</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 7: CTA -->
+<section class="slide slide-cta">
+  <div class="slide-inner">
+    <h2 class="cta-title">
+      别猜了，<br>
+      跑一遍就知道
+    </h2>
+    <p class="cta-sub">
+      一行命令，一份报告。<br>
+      在发布前把陌生人会遇到的问题先拦住。
+    </p>
+    <div class="cta-actions">
+      <a href="https://github.com/Halucinaut/Doppel" target="_blank" class="cta-btn cta-btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Star on GitHub
+      </a>
+    </div>
+    <div class="cta-code">
+      $ <span class="hl">doppel run</span> --product product.yaml --skill skill.yaml
+    </div>
+    <div class="cta-footer">
+      <a href="https://github.com/Halucinaut/Doppel/blob/main/LICENSE" target="_blank">MIT License</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/Halucinaut/Doppel/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// Make all elements visible immediately (no scroll animation for screenshot use)
+document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+</script>
+</body>
+</html>
